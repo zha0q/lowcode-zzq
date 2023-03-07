@@ -1,21 +1,28 @@
-import React from "react";
+import React from 'react';
+import styles from './index.less';
 import { Layout } from 'antd';
+import MaterialsEditor from "./components/MaterialsEditor";
+import Container from './Container';
+import FormEditor from './components/FormEditor';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 
 function Editor() {
   const { Header, Content, Footer, Sider } = Layout;
+  const contentRef = React.createRef()
+
+  const onDragEnd = (result: any) => {
+    console.log('dragend', result)
+  }
 
   return <Layout hasSider>
-    <Sider
-      style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
-      }}
-    >
-    </Sider>
+    <DragDropContext onDragEnd={onDragEnd}>
+
+      <MaterialsEditor Sider={Sider} contentRef={contentRef} />
+      <Container ref={contentRef} Content={Content} />
+
+    </DragDropContext>
+
   </Layout>
 }
 

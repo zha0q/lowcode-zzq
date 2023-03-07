@@ -5,4 +5,7 @@ export default defineConfig({
     type: 'none',
   },
   fastRefresh: {},
+  icons: {
+    entry: './src/assets/svg',
+  },
 });
