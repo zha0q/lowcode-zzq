@@ -18,8 +18,8 @@ function Editor() {
   return <Layout hasSider>
     <DragDropContext onDragEnd={onDragEnd}>
 
-      <MaterialsEditor Sider={Sider} contentRef={contentRef} />
-      <Container ref={contentRef} Content={Content} />
+      <MaterialsEditor Sider={Sider} />
+      <Container Content={Content} />
 
     </DragDropContext>
 

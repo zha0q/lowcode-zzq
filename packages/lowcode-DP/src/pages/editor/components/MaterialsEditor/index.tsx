@@ -23,8 +23,8 @@ const Col = (props: any) => {
 
 }
 
-export default function (props: { Sider: React.ForwardRefExoticComponent<SiderProps & React.RefAttributes<HTMLDivElement>>, contentRef: React.RefObject<any>}) {
-  const { Sider, contentRef } = props;
+export default function (props: { Sider: React.ForwardRefExoticComponent<SiderProps & React.RefAttributes<HTMLDivElement>>}) {
+  const { Sider } = props;
 
   const [collapsed, setCollapsed] = useState(false);
   const [category, setCategory] = useState<Category>('outline');
@@ -96,7 +96,6 @@ export default function (props: { Sider: React.ForwardRefExoticComponent<SiderPr
       closable
       onClose={onDrawerClose}
       open={!collapsed}
-      getContainer={contentRef.current}
       rootStyle={{ marginLeft: '45px', zIndex: 1 }}
     >
       {renderContent()}
