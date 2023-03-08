@@ -1,0 +1,23 @@
+0 silly argv {
+0 silly argv   _: [ 'import' ],
+0 silly argv   'preserve-commit': true,
+0 silly argv   preserveCommit: true,
+0 silly argv   flatten: true,
+0 silly argv   dest: 'packages',
+0 silly argv   lernaVersion: '6.5.1',
+0 silly argv   '$0': 'C:\\Users\\赵麒\\AppData\\Local\\pnpm\\global\\5\\node_modules\\lerna\\dist\\cli.js',
+0 silly argv   dir: '../lowcode-DP'
+0 silly argv }
+1 notice cli v6.5.1
+2 verbose rootPath D:\workplace\lowcode-zzq
+3 error Error: Command failed with exit code 128: git rev-parse HEAD
+3 error fatal: ambiguous argument 'HEAD': unknown revision or path not in the working tree.
+3 error Use '--' to separate paths from revisions, like this:
+3 error 'git <command> [<revision>...] -- [<file>...]'
+3 error HEAD
+3 error     at makeError (C:\Users\赵麒\AppData\Local\pnpm\global\5\.pnpm\execa@5.0.0\node_modules\execa\lib\error.js:59:11)
+3 error     at Function.module.exports.sync (C:\Users\赵麒\AppData\Local\pnpm\global\5\.pnpm\execa@5.0.0\node_modules\execa\index.js:186:17)
+3 error     at Object.execSync (C:\Users\赵麒\AppData\Local\pnpm\global\5\.pnpm\@lerna+child-process@6.5.1\node_modules\@lerna\child-process\index.js:39:16)
+3 error     at ImportCommand.execSync (C:\Users\赵麒\AppData\Local\pnpm\global\5\.pnpm\lerna@6.5.1\node_modules\lerna\dist\cli.js:5921:31)
+3 error     at ImportCommand.getCurrentSHA (C:\Users\赵麒\AppData\Local\pnpm\global\5\.pnpm\lerna@6.5.1\node_modules\lerna\dist\cli.js:5915:21)
+3 error     at ImportCommand.initialize (C:\Users\赵麒\AppData\Local\pnpm\global\5\.pnpm\lerna@6.5.1\node_modules\lerna\dist\cli.js:5892:35)
