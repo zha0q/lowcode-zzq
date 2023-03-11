@@ -4,7 +4,6 @@ specifiers:
   '@ant-design/pro-layout': ^6.5.0
   '@types/react': ^17.0.0
   '@types/react-dom': ^17.0.0
-  '@types/react-grid-layout': ^1.3.2
   '@umijs/preset-react': 1.x
   '@umijs/test': ^3.5.37
   antd: ^5.3.0
@@ -13,7 +12,6 @@ specifiers:
   prettier: ^2.2.0
   react: 17.x
   react-dom: 17.x
-  react-grid-layout: ^1.3.4
   typescript: ^4.1.2
   umi: ^3.5.37
   use-immer: ^0.8.1
@@ -25,14 +23,12 @@ dependencies:
   immer: 9.0.19
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
-  react-grid-layout: 1.3.4_sfoxds7t5ydpegc3knd667wn6m
   umi: 3.5.37
   use-immer: 0.8.1_immer@9.0.19+react@17.0.2
 
 devDependencies:
   '@types/react': 17.0.53
   '@types/react-dom': 17.0.19
-  '@types/react-grid-layout': 1.3.2
   '@umijs/preset-react': 1.8.31_o4qp6vwofhrtsth2p64musrsam
   '@umijs/test': 3.5.37
   lint-staged: 10.5.4
@@ -1040,12 +1036,6 @@ packages:
 
   /@types/react-dom/17.0.19:
     resolution: {integrity: sha512-PiYG40pnQRdPHnlf7tZnp0aQ6q9tspYr72vD61saO6zFCybLfMqwUCN0va1/P+86DXn18ZWeW30Bk7xlC5eEAQ==}
-    dependencies:
-      '@types/react': 17.0.53
-    dev: true
-
-  /@types/react-grid-layout/1.3.2:
-    resolution: {integrity: sha512-ZzpBEOC1JTQ7MGe1h1cPKSLP4jSWuxc+yvT4TsAlEW9+EFPzAf8nxQfFd7ea9gL17Em7PbwJZAsiwfQQBUklZQ==}
     dependencies:
       '@types/react': 17.0.53
     dev: true
@@ -2379,11 +2369,6 @@ packages:
       strip-ansi: 6.0.1
       wrap-ansi: 6.2.0
     dev: true
-
-  /clsx/1.2.1:
-    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
-    engines: {node: '>=6'}
-    dev: false
 
   /co/4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
@@ -6378,36 +6363,9 @@ packages:
       react: 17.0.2
       scheduler: 0.20.2
 
-  /react-draggable/4.4.5_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-OMHzJdyJbYTZo4uQE393fHcqqPYsEtkjfMgvCHr6rejT+Ezn4OZbNyGH50vv+SunC1RMvwOTSWkEODQLzw1M9g==}
-    peerDependencies:
-      react: '>= 16.3.0'
-      react-dom: '>= 16.3.0'
-    dependencies:
-      clsx: 1.2.1
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-    dev: false
-
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
     dev: true
-
-  /react-grid-layout/1.3.4_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-sB3rNhorW77HUdOjB4JkelZTdJGQKuXLl3gNg+BI8gJkTScspL1myfZzW/EM0dLEn+1eH+xW+wNqk0oIM9o7cw==}
-    peerDependencies:
-      react: '>= 16.3.0'
-      react-dom: '>= 16.3.0'
-    dependencies:
-      clsx: 1.2.1
-      lodash.isequal: 4.5.0
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-draggable: 4.4.5_sfoxds7t5ydpegc3knd667wn6m
-      react-resizable: 3.0.4_sfoxds7t5ydpegc3knd667wn6m
-    dev: false
 
   /react-helmet/6.1.0_react@17.0.2:
     resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
@@ -6486,18 +6444,6 @@ packages:
   /react-refresh/0.10.0:
     resolution: {integrity: sha512-PgidR3wST3dDYKr6b4pJoqQFpPGNKDSCDx4cZoshjXipw3LzO7mG1My2pwEzz2JVkF+inx3xRpDeQLFQGH/hsQ==}
     engines: {node: '>=0.10.0'}
-
-  /react-resizable/3.0.4_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-StnwmiESiamNzdRHbSSvA65b0ZQJ7eVQpPusrSmcpyGKzC0gojhtO62xxH6YOBmepk9dQTBi9yxidL3W4s3EBA==}
-    peerDependencies:
-      react: '>= 16.3'
-    dependencies:
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-draggable: 4.4.5_sfoxds7t5ydpegc3knd667wn6m
-    transitivePeerDependencies:
-      - react-dom
-    dev: false
 
   /react-router-config/5.1.1_6flbfkch6crntn4ac2g723iqde:
     resolution: {integrity: sha512-DuanZjaD8mQp1ppHjgnnUnyOlqYXZVjnov/JzFhjLEwd3Z4dYjMSnqrEzzGThH47vpCOqPPwJM2FtthLeJ8Pbg==}

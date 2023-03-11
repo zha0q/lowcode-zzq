@@ -1,5 +1,5 @@
-import BaseRenderer from './base';
+import Renderer from './renderer';
 
 export {
-  BaseRenderer,
+  Renderer,
 }
