@@ -1,15 +1,21 @@
 import { memo, useContext } from 'react';
 import { Context } from './DataContext';
+import { parseString } from './utils';
 
-const BaseComponent: React.FC<any> = memo(
-  (props: any) => {
-    const ctx = useContext(Context);
-    const { Component, schema } = props;
-    return <Component {...schema} ctx={ctx}>{props.children}</Component>;
-  },
-  (prev: any, curr: any) => {
-    return prev.data === curr.data;
-  },
-);
+const BaseComponent: React.FC<any> = (props: any) => {
+  const ctx = useContext(Context) as any;
+  const { Component, schema } = props;
+  const parseTemplate = (text: string) => {
+    return parseString(text, ctx.getValue(schema.path));
+  };
+  const tool = {
+    parseTemplate,
+  };
+  return (
+    <Component schema={schema} $={tool}>
+      {props.children}
+    </Component>
+  );
+};
 
 export default BaseComponent;

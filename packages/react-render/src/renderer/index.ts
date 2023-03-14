@@ -1,4 +1,4 @@
-import Renderer from './renderer';
+import Renderer from './Render';
 
 export {
   Renderer,

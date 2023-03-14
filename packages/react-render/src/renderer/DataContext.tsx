@@ -1,18 +1,8 @@
 import React from 'react';
 import { useImmer } from 'use-immer';
+import { generateData } from './utils';
 
 export const Context = React.createContext({});
-
-const generateData = (schema: any) => {
-  const { route, body, data: schemaData } = schema;
-  return {
-    child: body.reduce((result: any, childSchema: any) => {
-      result[childSchema.id] = generateData(childSchema);
-      return result;
-    }, {}),
-    data: schemaData,
-  };
-};
 
 export function DataContext({ children }: { children: any }) {
   const [data, setData] = useImmer({
@@ -24,16 +14,15 @@ export function DataContext({ children }: { children: any }) {
     setData(draft => {
       draft.child = {
         ...draft.child,
-        [schema.id]: generateData(schema),
+        [schema.id]: generateData(schema, (draft as any).child[schema.id]),
       }
     });
   };
 
-  const getValue = (route: string) => (key: string) => {
+  const getValue = (path: string) => (key: string) => {
     let scopedData = {} as any;
-    const chain = route.split('/');
+    const chain = path.split('/');
     let ret = data as any;
-    console.log('ret', data);
     if (ret.data[key] !== undefined) {
       scopedData[key] = ret.data[key];
       scopedData = Object.create(scopedData);
@@ -48,8 +37,8 @@ export function DataContext({ children }: { children: any }) {
     return scopedData[key];
   };
 
-  const setValue = (route: string, key: string, value: any) => {
-    const chain = route.split('/');
+  const setValue = (path: string, key: string, value: any) => {
+    const chain = path.split('/');
     setData((draft) => {
       let tmp = draft as any;
       chain.forEach((id) => {

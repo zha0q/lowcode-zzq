@@ -1,5 +1,7 @@
-export default function (props: any) {
+const Page = (props: any) => {
   return <>
     {props.children}
   </>
 }
+
+export default Page;
