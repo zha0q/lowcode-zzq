@@ -1,9 +1,10 @@
 import styles from './index.less';
 import { Renderer } from '../renderer/index';
 import { useImmer } from 'use-immer';
-import { Button, Input } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { Button } from 'antd';
+import { useState } from 'react';
 import JsonEditor from './JsonEditor';
+import { cloneDeep } from 'lodash';
 
 const example = {
   componentType: 'base',
@@ -44,38 +45,32 @@ const example = {
   ],
 };
 
+
+const copyDeep = (_draft: any, _schema: any) => {
+  Object.keys(_schema).forEach((k: any) => {
+    if(typeof _schema[k] === 'object' && _schema[k] !== null && typeof _draft[k] === 'object' && _draft[k] !== null) {
+      copyDeep(_draft[k], _schema[k]);
+    } else {
+      _draft[k] = _schema[k];
+    }
+  })
+}
+
 export default function IndexPage() {
   const [schema, setSchema] = useImmer(example);
-  const [editSchema, setEditSchema] = useImmer(example);
-  const oldSchema = useRef();
-
-  useEffect(() => {
-    oldSchema.current = schema as any;
-  }, []);
-
-  useEffect(() => {
-    console.log('old??', oldSchema.current === schema);
-  }, [schema]);
+  const [editSchema, setEditSchema] = useState(example);
 
   const onChange = (_schema: any) => {
     try {
-      setEditSchema((draft) => {
-        const nextState = JSON.parse(_schema);
-        Object.keys(draft).forEach((k) => {
-          (draft as any)[k] = nextState[k];
-        });
-      });
+      setEditSchema(JSON.parse(_schema));
     } catch (e) {
       console.log(e);
     }
   };
   const onSubmit = () => {
     try {
-      setSchema((draft) => {
-        const nextState = editSchema;
-        Object.keys(draft).forEach((k) => {
-          (draft as any)[k] = (nextState as any)[k];
-        });
+      setSchema((draft: any) => {
+        copyDeep(draft, editSchema);
       });
     } catch (e) {
       console.log(e);
@@ -86,7 +81,7 @@ export default function IndexPage() {
     <div>
       <h1 className={styles.title}>Page index</h1>
       <div className={styles.page}>
-        <Renderer setSchema={setSchema} schema={schema} />
+        <Renderer schema={schema} />
       </div>
       <JsonEditor
         value={editSchema}

@@ -18,7 +18,6 @@ const Button = memo(
       onEvent,
     } = props.schema;
     const { $ } = props;
-    console.log('buttonrereder');
     return (
       <AntdButton
         style={{
@@ -39,7 +38,6 @@ const Button = memo(
     );
   },
   (prev: any, curr: any) => {
-    console.log(prev.schema === curr.schema);
     return prev.schema === curr.schema;
   },
 );

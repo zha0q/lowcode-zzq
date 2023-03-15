@@ -7,6 +7,8 @@ import { memo, useMemo } from 'react';
 const dynamicComponentImported = new Map();
 
 const DynamicFunc = (type: string, componentType: string) => {
+  // TODO: 组件undefined处理
+  if (!type || !componentType) return () => <></>;
   return dynamic({
     loader: async function () {
       const { default: Graph } = await import(
@@ -35,15 +37,10 @@ const DynamicRenderer = (props: any) => {
   return <Dynamic {...props} />;
 };
 
-export default memo(
-  (props: any) => (
-    <DataContext>
-      <RootRenderer {...props} render={renderChild} />
-    </DataContext>
-  ),
-  (prev: any, curr: any) => {
-    return prev.schema === curr.schema;
-  },
+export default (props: any) => (
+  <DataContext>
+    <RootRenderer {...props} render={renderChild} />
+  </DataContext>
 );
 
 export const renderChild = (schema: any) => {

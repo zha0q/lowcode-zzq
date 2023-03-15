@@ -15,7 +15,6 @@ export const parseString = (template: string, getValue: any) => {
 };
 
 export const generateData = (schema: any, _draft: any) => {
-  console.log('gener')
   const { body, data: schemaData } = schema;
   return {
     child: body?.reduce((result: any, childSchema: any) => {
