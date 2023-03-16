@@ -41,6 +41,19 @@ const example = {
         h: '100px',
       },
       label: 'hahah',
+      onEvent: {
+        click: {
+          debounce: true,
+          actions: [
+            {
+              actionType: "jump",
+              args: {
+                to: "goBack",
+              }
+            }
+          ]
+        }
+      }
     },
   ],
 };
@@ -60,7 +73,8 @@ export default function IndexPage() {
   const [schema, setSchema] = useImmer(example);
   const [editSchema, setEditSchema] = useState(example);
 
-  const onChange = (_schema: any) => {
+  const onChange = (_schema: any, ...rest) => {
+    console.log(typeof _schema)
     try {
       setEditSchema(JSON.parse(_schema));
     } catch (e) {

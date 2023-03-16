@@ -18,6 +18,11 @@ const Button = memo(
       onEvent,
     } = props.schema;
     const { $ } = props;
+
+    const handleClick = (e: any) => {
+      $.dispatchEvent(e, $.renderer, {})
+    }
+
     return (
       <AntdButton
         style={{
@@ -31,7 +36,7 @@ const Button = memo(
         type={level}
         size={size}
         loading={loadingOn ? $.parseTemplate(loadingOn) : loading}
-        onClick={onEvent?.click}
+        onClick={handleClick}
       >
         {$.parseTemplate(label)}
       </AntdButton>

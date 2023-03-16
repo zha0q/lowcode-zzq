@@ -1,11 +1,34 @@
 import { useContext, useEffect } from 'react';
-import { Context } from './DataContext';
+import { DataContext } from './DataContext';
+import { EnvContext } from './EnvContext';
 
 export const RootRenderer = (props: any) => {
   const { schema, render } = props;
-  const { initData } = useContext(Context) as any;
+  const ctx = useContext(DataContext) as any;
+  const { env } = useContext(EnvContext) as any;
+
   useEffect(() => {
-      initData(schema);
+    ctx.initData(schema);
   }, [schema]);
-  return render(props.schema);
+
+  // TODO: Error拦截
+  if (env.isError) {
+    return () => {};
+  }
+
+  const handleAction = (e: Event, action: any, ctx: any) => {
+    if (
+      action.actionType === 'url' ||
+      action.actionType === 'link' ||
+      action.actionType === 'jump'
+    ) {
+      if (!env || !env.jumpTo) {
+        throw new Error('env.jumpTo is required!');
+      }
+
+      env.jumpTo(action.to, action);
+    }
+  };
+
+  return render(props.schema, { env, ctx, handleAction });
 };

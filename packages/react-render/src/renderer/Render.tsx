@@ -1,8 +1,9 @@
 import { dynamic } from 'umi';
 import BaseComponent from './base';
 import { RootRenderer } from './RootRenderer';
-import { DataContext } from './DataContext';
-import { memo, useMemo } from 'react';
+import { DataContextProvider } from './DataContext';
+import { memo, useMemo, useRef } from 'react';
+import { EnvContextProvider } from './EnvContext';
 
 const dynamicComponentImported = new Map();
 
@@ -16,9 +17,10 @@ const DynamicFunc = (type: string, componentType: string) => {
       );
       const Component = Graph;
       return (props: any) => {
+        const { schema, ...rest } = props;
         return (
           <BaseComponent Component={Component} {...props}>
-            {renderChild(props.schema.body)}
+            {renderChild(schema.body, rest)}
           </BaseComponent>
         );
       };
@@ -34,25 +36,27 @@ const DynamicRenderer = (props: any) => {
     );
   }
   const Dynamic = dynamicComponentImported.get(`${componentType}/${type}`);
-  return <Dynamic {...props} />;
+  return <Dynamic schema={props.schema} {...props} />;
 };
 
 export default (props: any) => (
-  <DataContext>
-    <RootRenderer {...props} render={renderChild} />
-  </DataContext>
+  <EnvContextProvider>
+    <DataContextProvider>
+      <RootRenderer {...props} render={renderChild} />
+    </DataContextProvider>
+  </EnvContextProvider>
 );
 
-export const renderChild = (schema: any) => {
+export const renderChild = (schema: any, props: any) => {
   if (!schema) return;
-  if (Array.isArray(schema)) return renderChilden(schema);
-  return <DynamicRenderer key={schema.id} schema={schema} />;
+  if (Array.isArray(schema)) return renderChilden(schema, props);
+  return <DynamicRenderer key={schema.id} schema={schema} {...props} />;
 };
 
-export const renderChilden: any = (schema: any) => {
+export const renderChilden: any = (schema: any, props: any) => {
   if (Array.isArray(schema))
     return schema.map((_schema: any) => {
-      return renderChild(_schema);
+      return renderChild(_schema, props);
     });
-  return renderChild(schema);
+  return renderChild(schema, props);
 };

@@ -1,66 +1,50 @@
-export interface ITextType {
-  text: string;
-  color: string;
-  fontSize: number;
-  align: string;
-  lineHeight: string;
-}
-
-export interface ITextSchema {
-  editData: any;
-  config: any;
-}
-
-const TextSchema: ITextSchema = {
-  editData: [
+const TextSchema: any = {
+  type: 'text',
+  schema: [
     {
-      key: 'text',
-      name: '文字',
-      type: 'Expression',
+      fieldKey: 'text',
+      title: '文字',
+      type: 'string',
     },
     {
-      key: 'color',
-      name: '标题颜色',
-      type: 'Color',
+      fieldKey: 'color',
+      title: '标题颜色',
+      type: 'color',
     },
     {
-      key: 'fontSize',
-      name: '字体大小',
-      type: 'Number',
+      fieldKey: 'fontSize',
+      title: '字体大小',
+      type: 'number',
     },
     {
-      key: 'align',
-      name: '对齐方式',
-      type: 'Select',
-      range: [
-        {
-          key: 'left',
-          text: '左对齐',
-        },
-        {
-          key: 'center',
-          text: '居中对齐',
-        },
-        {
-          key: 'right',
-          text: '右对齐',
-        },
-      ],
+      fieldKey: 'align',
+      title: '对齐方式',
+      type: 'string',
+      ui: {
+        type: 'select',
+        theme: 'antd',
+        options: [
+          {
+            label: '左对齐',
+            value: 'left',
+          },
+          {
+            label: '居中对齐',
+            value: 'center',
+          },
+          {
+            label: '右对齐',
+            value: 'right',
+          },
+        ],
+      },
     },
     {
-      key: 'lineHeight',
-      name: '行高',
-      type: 'Number',
+      fieldKey: 'lineHeight',
+      title: '行高',
+      type: 'number',
     },
   ],
-  config: {
-    text: '文本',
-    color: 'rgba(255,255,255,1)',
-    fontSize: 14,
-    align: 'center',
-    lineHeight: 2,
-  },
 };
-
 
 export default TextSchema;

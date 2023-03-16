@@ -2,9 +2,9 @@ import React from 'react';
 import { useImmer } from 'use-immer';
 import { generateData } from './utils';
 
-export const Context = React.createContext({});
+export const DataContext = React.createContext({});
 
-export function DataContext({ children }: { children: any }) {
+export function DataContextProvider({ children }: { children: any }) {
   const [data, setData] = useImmer({
     child: {},
     data: {},
@@ -54,5 +54,5 @@ export function DataContext({ children }: { children: any }) {
     getValue,
     setValue,
   };
-  return <Context.Provider value={ctx}>{children}</Context.Provider>;
+  return <DataContext.Provider value={ctx}>{children}</DataContext.Provider>;
 }
