@@ -1,9 +1,9 @@
 import { dynamic } from 'umi';
 import BaseComponent from './base';
 import { RootRenderer } from './RootRenderer';
-import { DataContextProvider } from './DataContext';
 import { memo, useMemo, useRef } from 'react';
-import { EnvContextProvider } from './EnvContext';
+import RootStore from './DataContext';
+import EnvStore from './EnvContext';
 
 const dynamicComponentImported = new Map();
 
@@ -40,11 +40,11 @@ const DynamicRenderer = (props: any) => {
 };
 
 export default (props: any) => (
-  <EnvContextProvider>
-    <DataContextProvider>
-      <RootRenderer {...props} render={renderChild} />
-    </DataContextProvider>
-  </EnvContextProvider>
+  <RootStore>
+    <EnvStore>
+      <RootRenderer {...props} render={renderChild} />;
+    </EnvStore>
+  </RootStore>
 );
 
 export const renderChild = (schema: any, props: any) => {

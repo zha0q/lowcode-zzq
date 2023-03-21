@@ -13,6 +13,8 @@ specifiers:
   jsoneditor: ^9.10.0
   lint-staged: ^10.0.7
   lodash: ^4.17.21
+  mobx: ^6.8.0
+  mobx-react-lite: ^3.4.3
   prettier: ^2.2.0
   react: 17.x
   react-dom: 17.x
@@ -27,6 +29,8 @@ dependencies:
   immer: 9.0.19
   jsoneditor: 9.10.0
   lodash: 4.17.21
+  mobx: 6.8.0
+  mobx-react-lite: 3.4.3_qq5k7xmo3oqg7ez4gi6qckqgy4
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   umi: 3.5.37
@@ -4731,6 +4735,28 @@ packages:
 
   /mobius1-selectr/2.4.13:
     resolution: {integrity: sha512-Mk9qDrvU44UUL0EBhbAA1phfQZ7aMZPjwtL7wkpiBzGh8dETGqfsh50mWoX9EkjDlkONlErWXArHCKfoxVg0Bw==}
+    dev: false
+
+  /mobx-react-lite/3.4.3_qq5k7xmo3oqg7ez4gi6qckqgy4:
+    resolution: {integrity: sha512-NkJREyFTSUXR772Qaai51BnE1voWx56LOL80xG7qkZr6vo8vEaLF3sz1JNUVh+rxmUzxYaqOhfuxTfqUh0FXUg==}
+    peerDependencies:
+      mobx: ^6.1.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: 6.8.0
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /mobx/6.8.0:
+    resolution: {integrity: sha512-+o/DrHa4zykFMSKfS8Z+CPSEg5LW9tSNGTuN8o6MF1GKxlfkSHSeJn5UtgxvPkGgaouplnrLXCF+duAsmm6FHQ==}
     dev: false
 
   /moment/2.29.4:

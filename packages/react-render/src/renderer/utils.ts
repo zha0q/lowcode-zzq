@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 export const parseString = (template: string, getValue: any) => {
   if (!template) return '';
   while (template.includes('${')) {
@@ -11,24 +13,8 @@ export const parseString = (template: string, getValue: any) => {
       template = template.replace('${' + select + '}', '--');
     }
   }
+  console.log(template);
   return template;
-};
-
-export const generateData = (schema: any, _draft: any) => {
-  const { body, data: schemaData } = schema;
-  return {
-    child: body?.reduce((result: any, childSchema: any) => {
-      result[childSchema.id] = generateData(
-        childSchema,
-        _draft?.child?.[childSchema.id],
-      );
-      return result;
-    }, {}),
-    data: {
-      ..._draft?.data,
-      ...schemaData,
-    },
-  };
 };
 
 // export const parseSchema = (schema: any, getValue: any) => {
@@ -46,6 +32,18 @@ export const generateData = (schema: any, _draft: any) => {
 //     });
 // };
 
+export const flattenSchemaData: any = (schema: any) => {
+  if (!schema) return [];
+  if (Array.isArray(schema))
+    return schema.reduce(
+      (ret: any, cur: any) => ret.concat(flattenSchemaData(cur)),
+      [],
+    );
+  return [
+    { id: schema.id, path: schema.path, data: schema.data },
+    ...flattenSchemaData(schema.body),
+  ];
+};
 
 export const normalizeLink = (to: string, location = window.location) => {
   to = to || '';
@@ -84,3 +82,42 @@ export const normalizeLink = (to: string, location = window.location) => {
 
   return pathname + search + hash;
 };
+
+export function useMap<K, T>(initialValue?: Iterable<readonly [K, T]>) {
+  const getInitValue = () => {
+    return initialValue === undefined ? new Map() : new Map(initialValue);
+  };
+
+  const [map, setMap] = useState<Map<K, T>>(() => getInitValue());
+
+  const get = (key: K) => map.get(key);
+
+  const set = (key: K, entry: T) => {
+    setMap((prev) => {
+      const temp = new Map(prev);
+      temp.set(key, entry);
+      return temp;
+    });
+  };
+
+  const remove = (key: K) => {
+    setMap((prev) => {
+      const temp = new Map(prev);
+      temp.delete(key);
+      return temp;
+    });
+  };
+
+  const setAll = (newMap: Iterable<readonly [K, T]>) => {
+    setMap(new Map(newMap));
+  };
+
+  const reset = () => setMap(getInitValue());
+
+  return {
+    get,
+    set,
+    remove,
+    reset,
+  };
+}

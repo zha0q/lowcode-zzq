@@ -74,7 +74,6 @@ export default function IndexPage() {
   const [editSchema, setEditSchema] = useState(example);
 
   const onChange = (_schema: any, ...rest) => {
-    console.log(typeof _schema)
     try {
       setEditSchema(JSON.parse(_schema));
     } catch (e) {

@@ -1,22 +1,31 @@
 import { useContext, useEffect } from 'react';
-import { DataContext } from './DataContext';
+import { RootStoreContext } from './DataContext';
 import { EnvContext } from './EnvContext';
+import { autorun, toJS } from 'mobx';
+import { flattenSchemaData } from './utils';
 
 export const RootRenderer = (props: any) => {
   const { schema, render } = props;
-  const ctx = useContext(DataContext) as any;
+  const rootStore = useContext(RootStoreContext) as any;
   const { env } = useContext(EnvContext) as any;
-
-  useEffect(() => {
-    ctx.initData(schema);
-  }, [schema]);
 
   // TODO: Error拦截
   if (env.isError) {
     return () => {};
   }
 
-  const handleAction = (e: Event, action: any, ctx: any) => {
+  useEffect(() => {
+    const flatedSchema = flattenSchemaData(schema);
+    flatedSchema.forEach((_schema: any) => {
+      rootStore.addStore({
+        id: _schema.id,
+        path: _schema.path,
+        data: _schema.data,
+      });
+    });
+  }, []);
+
+  const handleAction = (e: Event, action: any, rootStore: any) => {
     if (
       action.actionType === 'url' ||
       action.actionType === 'link' ||
@@ -30,5 +39,5 @@ export const RootRenderer = (props: any) => {
     }
   };
 
-  return render(props.schema, { env, ctx, handleAction });
+  return render(schema, { env, rootStore, handleAction });
 };

@@ -1,14 +1,19 @@
 import React from 'react';
+import { observer, useLocalObservable } from 'mobx-react-lite';
 import { defaultOptions } from './envOptions';
 
-export const EnvContext = React.createContext({});
+export const EnvContext = React.createContext(null) as any;
 
-export function EnvContextProvider({ children }: { children: any }) {
-  const env = defaultOptions;
+function Env(props: { children: any }) {
+  const rootContext = useLocalObservable(() => ({
+    env: defaultOptions,
+  }));
 
-  const ctx = {
-    env,
-  }
-
-  return <EnvContext.Provider value={ctx}>{children}</EnvContext.Provider>;
+  return (
+    <EnvContext.Provider value={rootContext}>
+      {props.children}
+    </EnvContext.Provider>
+  );
 }
+
+export default observer(Env);

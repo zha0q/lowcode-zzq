@@ -1,58 +1,61 @@
+import { observer, useLocalObservable } from 'mobx-react-lite';
 import React from 'react';
-import { useImmer } from 'use-immer';
-import { generateData } from './utils';
+import { reaction } from 'mobx';
 
-export const DataContext = React.createContext({});
+export const RootStoreContext = React.createContext(null) as any;
 
-export function DataContextProvider({ children }: { children: any }) {
-  const [data, setData] = useImmer({
-    child: {},
-    data: {},
-  });
+// 每条数据代理拦截 每个组件使用到数据时getter订阅这条数据 这条数据删除时重新向上寻找，组件卸载时 取消订阅
+function RootStore(props: { children: any }) {
+  const rootContext = useLocalObservable(() => ({
+    storeMap: new Map(),
 
-  const initData = (schema: any) => {
-    setData(draft => {
-      draft.child = {
-        ...draft.child,
-        [schema.id]: generateData(schema, (draft as any).child[schema.id]),
-      }
-    });
-  };
+    storeCount: 0,
 
-  const getValue = (path: string) => (key: string) => {
-    let scopedData = {} as any;
-    const chain = path.split('/');
-    let ret = data as any;
-    if (ret.data[key] !== undefined) {
-      scopedData[key] = ret.data[key];
-      scopedData = Object.create(scopedData);
-    }
-    chain.forEach((id) => {
-      ret = ret.child[id];
-      if (ret.data && ret.data[key] !== undefined) {
-        scopedData[key] = ret.data[key];
-        scopedData = Object.create(scopedData);
-      }
-    });
-    return scopedData[key];
-  };
+    addStoreCount() {
+      this.storeCount ++;
+    },
 
-  const setValue = (path: string, key: string, value: any) => {
-    const chain = path.split('/');
-    setData((draft) => {
-      let tmp = draft as any;
-      chain.forEach((id) => {
-        tmp = tmp.child[id];
-      });
-      tmp[key] = value;
-    });
-  };
+    addStore(store: any) {
+      if (this.storeMap.has(store.id)) return;
+      this.storeMap.set(store.id, store);
+    },
 
-  const ctx = {
-    data,
-    initData,
-    getValue,
-    setValue,
-  };
-  return <DataContext.Provider value={ctx}>{children}</DataContext.Provider>;
+    getStore(id: string) {
+      return this.storeMap.get(id);
+    },
+
+    removeStore(id: string) {
+      if (this.storeMap.has(id)) this.storeMap.delete(id);
+    },
+
+    getValue(id: string) {
+      return (key: string) => {
+        if (!this.storeMap.has(id)) return '';
+        const store = this.storeMap.get(id);
+        return store.path
+          .split('/')
+          .reduceRight(
+            (ret: any, _id: any) =>
+              ret !== undefined ? ret : this.storeMap.get(_id)?.data?.[key],
+            undefined,
+          );
+      };
+    },
+
+    setValue(id: string, key: string, value: any) {
+      if (!this.storeMap.has(id)) return;
+      const _store = this.storeMap.get(id);
+      _store.data[key] = value;
+      this.storeMap = new Map;
+      console.log(_store.data, value);
+    },
+  }));
+
+  return (
+    <RootStoreContext.Provider value={rootContext}>
+      {props.children}
+    </RootStoreContext.Provider>
+  );
 }
+
+export default observer(RootStore);
