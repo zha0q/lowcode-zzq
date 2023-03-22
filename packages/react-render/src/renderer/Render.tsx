@@ -4,6 +4,7 @@ import { RootRenderer } from './RootRenderer';
 import { memo, useMemo, useRef } from 'react';
 import RootStore from './DataContext';
 import EnvStore from './EnvContext';
+import { observer } from 'mobx-react-lite';
 
 const dynamicComponentImported = new Map();
 
@@ -19,7 +20,7 @@ const DynamicFunc = (type: string, componentType: string) => {
       return (props: any) => {
         const { schema, ...rest } = props;
         return (
-          <BaseComponent Component={Component} {...props}>
+          <BaseComponent Component={observer(Component)} {...props}>
             {renderChild(schema.body, rest)}
           </BaseComponent>
         );

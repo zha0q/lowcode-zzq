@@ -21,6 +21,7 @@ export const RootRenderer = (props: any) => {
         id: _schema.id,
         path: _schema.path,
         data: _schema.data,
+        schema: _schema,
       });
     });
   }, []);

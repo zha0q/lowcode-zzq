@@ -22,6 +22,4 @@ export class LinkAction implements RendererAction {
   }
 }
 
-console.log(1)
-
 registerAction('openlink', new LinkAction());

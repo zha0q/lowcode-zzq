@@ -16,6 +16,25 @@ export const getActionByType = (type: string) => {
   return ActionTypeMap[type];
 };
 
+
+export interface ListenerAction {
+  actionType: string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
+  description?: string; // 事件描述，actionType: broadcast
+  componentId?: string; // 组件ID，用于直接执行指定组件的动作，指定多个组件时使用英文逗号分隔
+  args?: Record<string, any>; // 动作配置，可以配置数据映射
+  data?: Record<string, any> | null; // 动作数据参数，可以配置数据映射
+  dataMergeMode?: 'merge' | 'override'; // 参数模式，合并或者覆盖
+  outputVar?: string; // 输出数据变量名
+  preventDefault?: boolean; // 阻止原有组件的动作行为
+  stopPropagation?: boolean; // 阻止后续的事件处理器执行
+  expression?: string | any; // 执行条件
+  execOn?: string; // 执行条件，1.9.0废弃
+}
+
+export interface ListenerContext extends React.Component<any> {
+  [propName: string]: any;
+}
+
 export const runActions = async (actions: any, renderer: any, event: any) => {
   if (!Array.isArray(actions)) {
     actions = [actions];
@@ -47,7 +66,7 @@ export const runAction = async (
   renderer: any,
   event: any,
 ) => {
-  console.log(actionInstrance, ActionTypeMap)
+  console.log(actionInstrance)
   const actionResult = await actionInstrance.run(
     {
       ...actionConfig,

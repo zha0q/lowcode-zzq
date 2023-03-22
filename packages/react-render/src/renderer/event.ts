@@ -3,6 +3,18 @@ import debounce from 'lodash/debounce';
 
 let rendererEventListeners: any = [];
 
+// 将事件上下文转成事件对象
+export type RendererEvent<T, P = any> = {
+  context: T;
+  type: string;
+  prevented?: boolean; // 阻止原有动作执行
+  stoped?: boolean; // 阻止后续动作执行
+  data?: P;
+  preventDefault: () => void;
+  stopPropagation: () => void;
+  setData: (data: P) => void;
+};
+
 export function createRendererEvent(type: string, context: any): any {
   const rendererEvent = {
     context,
@@ -66,7 +78,6 @@ export const bindEvent = (renderer: any) => {
   }
   return () => {
     rendererEventListeners.filter((_renderer: any) => {
-      console.log(_renderer === renderer)
       return _renderer !== renderer;
     });
   };
@@ -83,8 +94,6 @@ export async function dispatchEvent(
   unbindEvent = bindEvent(renderer);
 
   renderer?.props?.env?.beforeDispatchEvent?.(e, renderer, data);
-
-  console.log(rendererEventListeners.length);
 
   // 没有可处理的监听
   if (!rendererEventListeners.length) {

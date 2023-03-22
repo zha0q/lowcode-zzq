@@ -3,11 +3,13 @@ lockfileVersion: 5.4
 specifiers:
   '@jdfed/drip-form': ^0.8.2
   '@jdfed/drip-form-theme-antd': ^0.8.2
+  hox: ^2.1.0
   lerna: ^6.5.1
 
 dependencies:
   '@jdfed/drip-form': 0.8.2
   '@jdfed/drip-form-theme-antd': 0.8.2
+  hox: 2.1.0
 
 devDependencies:
   lerna: 6.5.1
@@ -1969,6 +1971,14 @@ packages:
     dependencies:
       lru-cache: 7.18.3
     dev: true
+
+  /hox/2.1.0:
+    resolution: {integrity: sha512-8TihXk6RTh28295Pvwjj1ohvNuNT1oUbuAuoJzYed4JQ23lumVyfLVc1px2dvgkvdrjKpJXhT/qy7W5uJsCuaQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      use-sync-external-store: 1.2.0
+    dev: false
 
   /http-cache-semantics/4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
@@ -4117,6 +4127,12 @@ packages:
       react: ^16.8.0 || ^17.0.1
     dependencies:
       immer: 9.0.19
+    dev: false
+
+  /use-sync-external-store/1.2.0:
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dev: false
 
   /util-deprecate/1.0.2:

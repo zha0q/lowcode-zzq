@@ -3,7 +3,6 @@ import { memo } from 'react';
 const Text = (props: any) => {
   const { $ } = props;
   const { align, text, fontSize, color, lineHeight, layout } = props.schema;
-console.log('textrerender')
   return (
     <div
       style={{

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@jdfed/drip-form": "^0.8.2",
-    "@jdfed/drip-form-theme-antd": "^0.8.2"
+    "@jdfed/drip-form-theme-antd": "^0.8.2",
+    "hox": "^2.1.0"
   }
 }

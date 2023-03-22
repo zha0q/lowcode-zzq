@@ -1,6 +1,5 @@
 import styles from './index.less';
 import { Renderer } from '../renderer/index';
-import { useImmer } from 'use-immer';
 import { Button } from 'antd';
 import { useState } from 'react';
 import JsonEditor from './JsonEditor';
@@ -46,9 +45,11 @@ const example = {
           debounce: true,
           actions: [
             {
-              actionType: "jump",
+              // actionType: "link",
+              actionType: "ajax",
               args: {
-                to: "goBack",
+                // to: "goBack",
+                api: '/api/text',
               }
             }
           ]
@@ -70,7 +71,7 @@ const copyDeep = (_draft: any, _schema: any) => {
 }
 
 export default function IndexPage() {
-  const [schema, setSchema] = useImmer(example);
+  const [schema, setSchema] = useState(example);
   const [editSchema, setEditSchema] = useState(example);
 
   const onChange = (_schema: any, ...rest) => {
@@ -82,9 +83,7 @@ export default function IndexPage() {
   };
   const onSubmit = () => {
     try {
-      setSchema((draft: any) => {
-        copyDeep(draft, editSchema);
-      });
+      setSchema(editSchema);
     } catch (e) {
       console.log(e);
     }

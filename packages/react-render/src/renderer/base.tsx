@@ -1,7 +1,13 @@
-import { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import { bindEvent, dispatchEvent } from './event';
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
+import { bindEvent, dispatchEvent as _dispatchEvent } from './event';
 import { parseString } from './utils';
-import { reaction, toJS, when, autorun } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
 const BaseComponent: React.FC<any> = (props: any) => {
@@ -21,21 +27,20 @@ const BaseComponent: React.FC<any> = (props: any) => {
   }, [schema.data]);
 
   // 当前数据域响应
-  useEffect(() => {
-    console.log(123344);
-    reaction(
-      () => rootStore,
-      (cur, pre) => {
-        console.log(`cur: ${cur}, pre: ${pre}`);
-      },
-    );
-    when(
-      () => true,
-      () => {
-        console.log('...');
-      },
-    );
-  }, [rootStore.storeMap]);
+  // useEffect(() => {
+  //   reaction(
+  //     () => rootStore,
+  //     (cur, pre) => {
+  //       console.log(`cur: ${cur}, pre: ${pre}`);
+  //     },
+  //   );
+  //   when(
+  //     () => true,
+  //     () => {
+  //       console.log('...');
+  //     },
+  //   );
+  // }, [rootStore.storeMap]);
 
   // 渲染器事件绑定
   useEffect(() => {
@@ -52,21 +57,25 @@ const BaseComponent: React.FC<any> = (props: any) => {
     [rootStore.storeMap],
   );
 
-  const $ = {
+  const dispatchEvent = async (
+    e: React.MouseEvent<any>,
+    data: any,
+    _renderer?: React.Component<any>, // for didmount
+  ): Promise<any> => {
+    return await _dispatchEvent(e, renderer || _renderer, data);
+  };
+
+  const $ = useRef({
     env,
     parseTemplate,
     dispatchEvent,
     renderer,
-  };
+  });
   return (
-    <Component schema={schema} $={$}>
+    <Component schema={schema} $={$.current}>
       {props.children}
     </Component>
   );
 };
 
-export default memo(
-  BaseComponent,
-  (prev: any, curr: any) =>
-    prev.schema === curr.schema && prev.rootStore === curr.rootStore,
-);
+export default BaseComponent;

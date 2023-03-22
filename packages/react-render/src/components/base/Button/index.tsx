@@ -1,4 +1,3 @@
-import { parseString } from '@/renderer/utils';
 import { Button as AntdButton } from 'antd';
 
 const Button = (props: any) => {
@@ -20,7 +19,6 @@ const Button = (props: any) => {
   const handleClick = (e: any) => {
     $.dispatchEvent(e, $.renderer, {});
   };
-console.log('buttonrerender')
   return (
     <AntdButton
       style={{

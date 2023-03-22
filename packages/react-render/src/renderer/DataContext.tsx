@@ -46,8 +46,6 @@ function RootStore(props: { children: any }) {
       if (!this.storeMap.has(id)) return;
       const _store = this.storeMap.get(id);
       _store.data[key] = value;
-      this.storeMap = new Map;
-      console.log(_store.data, value);
     },
   }));
 

@@ -13,7 +13,6 @@ export const parseString = (template: string, getValue: any) => {
       template = template.replace('${' + select + '}', '--');
     }
   }
-  console.log(template);
   return template;
 };
 
