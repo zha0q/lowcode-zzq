@@ -1,37 +1,33 @@
-import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useDrop } from 'react-dnd';
+// import { ItemTypes } from './ItemTypes';
 
-export default React.forwardRef((props: any, ref) => {
+const style = {
+  width: '100%'
+};
+const Container = (props: any) => {
   const { Content } = props;
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    // accept: ItemTypes.BOX,
+    accept: 'BOX',
+    drop: () => ({ name: 'Dustbin' }),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+  const isActive = canDrop && isOver;
+  let backgroundColor = '#222';
+  if (isActive) {
+    backgroundColor = 'darkgreen';
+  } else if (canDrop) {
+    backgroundColor = 'darkkhaki';
+  }
+  return (
+    <div ref={drop} role={'Dustbin'} style={{ ...style, backgroundColor }}>
+      {isActive ? 'Release to drop' : 'Drag a box here'}
+      {/* {Content} */}
+    </div>
+  );
+};
 
-  return <Content ref={ref}>
-      <Droppable droppableId="droppable1">
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-          // style={getListStyle(snapshot.isDraggingOver)}
-          >
-            {[{ content: '123', id: '1' }].map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  // style={getItemStyle(
-                  //   snapshot.isDragging,
-                  //   provided.draggableProps.style
-                  // )}
-                  >
-                    {item.content}
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-  </Content>
-})
+export default Container;

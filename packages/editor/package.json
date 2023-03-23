@@ -24,18 +24,22 @@
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@ant-design/pro-layout": "^6.5.0",
-    "@types/react-beautiful-dnd": "^13.1.3",
     "antd": "^5.2.3",
     "classnames": "^2.3.2",
+    "mobx": "^6.8.0",
+    "mobx-react-lite": "^3.4.3",
     "react": "17.x",
-    "react-beautiful-dnd": "^13.1.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "17.x",
     "react-draggable": "^4.4.5",
-    "umi": "^3.5.37"
+    "umi": "^3.5.37",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/uuid": "^9.0.1",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.5.37",
     "lint-staged": "^10.0.7",

@@ -1,0 +1,42 @@
+.Canvas {
+  flex: 1;
+  padding: 4px;
+  background-color:antiquewhite;
+}
+
+.Item {
+  // 'canvas-field p-2 border border-gray-300 border-dashed  relative',
+  //   {
+  //     'opacity-2': isDragging,
+  //     'outline-blue border-opacity-0': state.focusId === data.id,
+  //     'inline-block': ['a', 'span', 'button', 'b', 'i'].includes(
+  //       current._owner.type.name,
+  //     ),
+  //   },
+  min-height: 30px;
+  padding: 0.5rem;
+  border-width: 1px;
+  position: relative;
+  border-color: rgb(209,213,219);
+}
+
+.Action {
+  // px-2 py-1 text-white bg-indigo-600 opacity-75 absolute right-0 top-0 z-10 cursor-pointer
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: white;
+  background-color: rgb(79,70,229);
+  opacity: 75%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  cursor: pointer;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
