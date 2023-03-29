@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.less';
-import { Layout } from 'antd';
+import { Drawer, Layout } from 'antd';
 import MaterialsEditor from './components/MaterialsEditor';
 import Container from './Container';
 import FormEditor from './components/FormEditor';
@@ -12,6 +12,16 @@ import Canvas from './components/Canvas';
 function Editor() {
   const { Header, Content, Footer, Sider } = Layout;
   const contentRef = React.createRef();
+
+  const [open, setOpen] = useState(true);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   const onDragEnd = (result: any) => {
     console.log('dragend', result);
@@ -25,6 +35,14 @@ function Editor() {
             <MaterialsEditor Sider={Sider} />
             {/* <Container Content={Content} /> */}
             <Canvas mobile={false} />
+            <Drawer
+              title="编辑器"
+              placement="right"
+              onClose={onClose}
+              open={open}
+            >
+              <FormEditor />
+            </Drawer>
           </div>
         </CodeTree>
       </Layout>

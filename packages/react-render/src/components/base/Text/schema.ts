@@ -8,7 +8,7 @@ const TextSchema: any = {
     },
     {
       fieldKey: 'color',
-      title: '标题颜色',
+      title: '颜色',
       type: 'color',
     },
     {

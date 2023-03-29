@@ -11,6 +11,7 @@
     "baseUrl": "./",
     "strict": true,
     "paths": {
+      "@svgs": ["src/.umi/plugin-svgs"],
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"]
     },

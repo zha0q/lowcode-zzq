@@ -11,7 +11,7 @@ const example = {
   id: 'node_1234',
   path: 'node_1234',
   data: {
-    info: 'hello!!!',
+    info: '请拖拽组件到此处',
   },
   body: [
     {
@@ -25,7 +25,7 @@ const example = {
         w: '100px',
         h: '100px',
       },
-      text: '${info}123',
+      text: '${info}！！',
       body: [],
     },
     {
@@ -39,7 +39,7 @@ const example = {
         w: '100px',
         h: '100px',
       },
-      label: 'hahah',
+      label: '发起请求',
       onEvent: {
         click: {
           debounce: true,
@@ -91,7 +91,7 @@ export default function IndexPage() {
 
   return (
     <div>
-      <h1 className={styles.title}>Page index</h1>
+      {/* <h1 className={styles.title}>Page index</h1> */}
       <div className={styles.page}>
         <Renderer schema={schema} />
       </div>

@@ -22,13 +22,14 @@
     ]
   },
   "dependencies": {
-    "@ant-design/colors": "^7.0.0",
-    "@ant-design/pro-layout": "^6.5.0",
-    "antd": "^5.2.3",
+    "@jdfed/drip-form": "^0.8.2",
+    "@jdfed/drip-form-theme-antd": "^0.8.2",
+    "antd": "^4.24.5",
     "classnames": "^2.3.2",
     "mobx": "^6.8.0",
     "mobx-react-lite": "^3.4.3",
     "react": "17.x",
+    "react-color": "^2.19.3",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "17.x",
@@ -45,7 +46,6 @@
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
     "typescript": "^4.1.2",
-    "umi-plugin-icons": "^0.1.1",
     "yorkie": "^2.0.0"
   }
 }

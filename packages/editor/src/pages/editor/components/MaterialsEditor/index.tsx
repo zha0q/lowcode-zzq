@@ -1,12 +1,11 @@
 import { Drawer, SiderProps, Tooltip } from 'antd';
 import { useState } from 'react';
 import styles from './index.less';
-import {
-  ParagraphOutlined,
-  ZujianOutlined,
-  JsOutlined,
-  OdbcOutlined,
-} from '@icons';
+
+import {ReactComponent as ParagraphOutlined } from '../../../../assets/svg/outlined/paragraph.svg';
+import {ReactComponent as ZujianOutlined } from '../../../../assets/svg/outlined/zujian.svg';
+import {ReactComponent as JsOutlined } from '../../../../assets/svg/outlined/js.svg';
+import {ReactComponent as OdbcOutlined } from '../../../../assets/svg/outlined/odbc.svg';
 import DragBox from './DragBox';
 
 type Category = 'outline' | 'component' | 'database' | 'code';
@@ -31,7 +30,7 @@ const Col = (props: any) => {
         className={styles.Col}
         onClick={handleClick}
       >
-        <Logo width={50} height={50} />
+        <Logo width={20} height={20} />
       </div>
     </Tooltip>
   );
