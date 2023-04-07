@@ -1,7 +1,7 @@
-import ButtonSchema from './base/Button/schema';
-import TextSchema from './base/Text/schema';
+import buttonschema from './base/Button/schema';
+import textschema from './base/Text/schema';
 
-export {
-  ButtonSchema,
-  TextSchema,
-}
+export default [
+  buttonschema,
+  textschema,
+]

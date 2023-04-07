@@ -10,6 +10,10 @@ import styles from './index.less';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
+// TODO：对position：absolute 布局 特殊处理拖拽，使用react-grid-layout 进行grid布局拖拽 ?
+// TODO: 在画布上 有一个iframe和iframe遮罩画布，拖拽开始渲染器传回每个组件位置信息（可放入组件信息）用
+// 于给遮罩层渲染，渲染器实时显示 当前放入容器border提示 以及 是否插入在同级组件中间的提示线 是否可以放入目前鼠标hover的组件
+
 interface DragItem {
   type: string;
   data: FieldNodeSchema;

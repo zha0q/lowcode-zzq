@@ -1,5 +1,6 @@
 {
-  "private": true,
+  "name": "@lowcode-zzq/react-renderer",
+   "main": "./src/index",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",

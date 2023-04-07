@@ -64,8 +64,8 @@ export default function (props: {
           <div className={styles.Content}>
             {[
               {
-                type: 'h1',
-                props: { children: 'H1', className: 'text-3xl' },
+                type: 'button',
+                props: {children: '我的按钮'},
                 children: [],
               },
               {
