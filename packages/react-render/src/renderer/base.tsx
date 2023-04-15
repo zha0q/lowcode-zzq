@@ -1,6 +1,7 @@
 import {
   memo,
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -9,12 +10,24 @@ import {
 import { bindEvent, dispatchEvent as _dispatchEvent } from './event';
 import { parseString } from './utils';
 import { observer } from 'mobx-react-lite';
+import { RefStoreContext } from '../store/RefContext';
 
 const BaseComponent: React.FC<any> = (props: any) => {
   const { Component, schema, rootStore, env } = props;
   const renderer = {
     props,
   };
+
+  const { addRef, offRef } = useContext(RefStoreContext) as any;
+  const componentRef = useRef(HTMLDivElement);
+
+  // 绑定ref
+  useEffect(() => {
+    console.log(componentRef);
+    if(schema.componentType === 'base') addRef(schema.path, schema.componentType, componentRef.current);
+    else addRef(schema.id, schema.componentType, componentRef.current);
+    return () => offRef(schema.id);
+  }, []);
 
   // schema中的data改变时
   useEffect(() => {
@@ -25,22 +38,6 @@ const BaseComponent: React.FC<any> = (props: any) => {
       }
     });
   }, [schema.data]);
-
-  // 当前数据域响应
-  // useEffect(() => {
-  //   reaction(
-  //     () => rootStore,
-  //     (cur, pre) => {
-  //       console.log(`cur: ${cur}, pre: ${pre}`);
-  //     },
-  //   );
-  //   when(
-  //     () => true,
-  //     () => {
-  //       console.log('...');
-  //     },
-  //   );
-  // }, [rootStore.storeMap]);
 
   // 渲染器事件绑定
   useEffect(() => {
@@ -72,7 +69,7 @@ const BaseComponent: React.FC<any> = (props: any) => {
     renderer,
   });
   return (
-    <Component schema={schema} $={$.current}>
+    <Component ref={componentRef} schema={schema} $={$.current}>
       {props.children}
     </Component>
   );

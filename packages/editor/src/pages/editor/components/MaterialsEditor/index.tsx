@@ -1,12 +1,13 @@
-import { Drawer, SiderProps, Tooltip } from 'antd';
-import { useState } from 'react';
+import { SiderProps, Tooltip } from 'antd';
+import { useRef, useState } from 'react';
 import styles from './index.less';
 
-import {ReactComponent as ParagraphOutlined } from '../../../../assets/svg/outlined/paragraph.svg';
-import {ReactComponent as ZujianOutlined } from '../../../../assets/svg/outlined/zujian.svg';
-import {ReactComponent as JsOutlined } from '../../../../assets/svg/outlined/js.svg';
-import {ReactComponent as OdbcOutlined } from '../../../../assets/svg/outlined/odbc.svg';
+import { ReactComponent as ParagraphOutlined } from '../../../../assets/svg/outlined/paragraph.svg';
+import { ReactComponent as ZujianOutlined } from '../../../../assets/svg/outlined/zujian.svg';
+import { ReactComponent as JsOutlined } from '../../../../assets/svg/outlined/js.svg';
+import { ReactComponent as OdbcOutlined } from '../../../../assets/svg/outlined/odbc.svg';
 import DragBox from './DragBox';
+import Panel from './Panel';
 
 type Category = 'outline' | 'component' | 'database' | 'code';
 
@@ -53,10 +54,6 @@ export default function (props: {
     setCategory(cate);
   };
 
-  const onDrawerClose = (e: any) => {
-    onClick(e, category);
-  };
-
   const renderContent = () => {
     switch (category) {
       case 'component':
@@ -65,7 +62,7 @@ export default function (props: {
             {[
               {
                 type: 'button',
-                props: {children: '我的按钮'},
+                props: { children: '我的按钮' },
                 children: [],
               },
               {
@@ -116,18 +113,14 @@ export default function (props: {
           title="源码"
         />
       </div>
-      <Drawer
+      <Panel
         width={250}
-        mask={false}
+        left={45}
         title={Category2Title[category]}
-        placement="left"
-        closable
-        onClose={onDrawerClose}
         open={!collapsed}
-        rootStyle={{ marginLeft: '45px', zIndex: 1 }}
       >
         {renderContent()}
-      </Drawer>
+      </Panel>
     </Sider>
   );
 }

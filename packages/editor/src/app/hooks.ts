@@ -4,7 +4,6 @@ import { toJS } from 'mobx';
 
 export const useAppSelector = () => {
   const { state } = useContext(CodeTreeContext);
-  console.log('state', toJS(state));
   return state;
 };
 

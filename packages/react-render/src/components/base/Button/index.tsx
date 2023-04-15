@@ -1,6 +1,9 @@
+// import Wrapper from '@/components/Wrapper';
+import Wrapper from '@/components/Wrapper';
 import { Button as AntdButton } from 'antd';
+import React from 'react';
 
-const Button = (props: any) => {
+const Button = React.forwardRef((props: any, ref) => {
   const {
     block,
     label,
@@ -20,23 +23,25 @@ const Button = (props: any) => {
     $.dispatchEvent(e, $.renderer, {});
   };
   return (
-    <AntdButton
-      style={{
-        position: 'absolute',
-        height: layout.h,
-        width: layout.w,
-        top: layout.y,
-        left: layout.x,
-      }}
-      block={block}
-      type={level}
-      size={size}
-      loading={loadingOn ? $.parseTemplate(loadingOn) : loading}
-      onClick={handleClick}
-    >
-      {$.parseTemplate(label)}
-    </AntdButton>
+    // <Wrapper ref={ref}>
+      <AntdButton
+        style={{
+          position: layout.position,
+          height: layout.h,
+          width: layout.w,
+          top: layout.y,
+          left: layout.x,
+        }}
+        block={block}
+        type={level}
+        size={size}
+        loading={loadingOn ? $.parseTemplate(loadingOn) : loading}
+        onClick={handleClick}
+      >
+        {$.parseTemplate(label)}
+      </AntdButton>
+    // </Wrapper>
   );
-};
+});
 
 export default Button;

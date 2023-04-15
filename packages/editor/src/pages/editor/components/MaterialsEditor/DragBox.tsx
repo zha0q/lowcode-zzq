@@ -1,5 +1,3 @@
-import React from 'react';
-import cl from 'classnames';
 import { CRAD } from '../../../../ItemTypes';
 import { useDrag } from 'react-dnd';
 import { v1 as uuid } from 'uuid';

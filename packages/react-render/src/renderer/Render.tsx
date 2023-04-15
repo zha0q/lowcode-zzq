@@ -43,7 +43,7 @@ const DynamicRenderer = (props: any) => {
 export default (props: any) => (
   <RootStore>
     <EnvStore>
-      <RootRenderer {...props} render={renderChild} />;
+      <RootRenderer schema={props.schema} render={renderChild} />
     </EnvStore>
   </RootStore>
 );
