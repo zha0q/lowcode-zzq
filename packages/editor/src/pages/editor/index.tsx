@@ -6,7 +6,6 @@ import Container from './Container';
 import FormEditor from './components/FormEditor';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { CodeTree } from '@/app/codeTree';
 import Canvas from './components/Canvas';
 
 function Editor() {
@@ -30,11 +29,10 @@ function Editor() {
   return (
     <DndProvider backend={HTML5Backend}>
       <Layout hasSider>
-        <CodeTree>
           <div className={styles.Layout}>
             <MaterialsEditor Sider={Sider} />
             {/* <Container Content={Content} /> */}
-            <Canvas mobile={false} />
+            <Canvas />
             <Drawer
               title="编辑器"
               placement="right"
@@ -44,7 +42,6 @@ function Editor() {
               <FormEditor />
             </Drawer>
           </div>
-        </CodeTree>
       </Layout>
     </DndProvider>
   );

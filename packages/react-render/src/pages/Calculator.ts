@@ -50,7 +50,7 @@ export class Calculator {
         );
       }
     });
-    console.log(materialsMap)
+    console.log(materialsMap);
   }
 
   calcu(mousePosition: { x: number; y: number }): ILayoutInfo {
@@ -58,7 +58,6 @@ export class Calculator {
     let childNodeId = '';
     let parentNdoeRect = undefined;
     let childNodeRect = undefined;
-  
 
     [parentNodeId, parentNdoeRect] = Array.from(
       this.containerNodeRectMap.entries(),
@@ -82,10 +81,16 @@ export class Calculator {
 
     [childNodeId, childNodeRect] = findNearestDomId(
       mousePosition,
-      Array.from(this.baseNodeRectMap.entries()).filter(([id]) =>
-        id.includes(parentNodeId),
-      ),
+      Array.from(this.baseNodeRectMap.entries())
+        .concat(Array.from(this.containerNodeRectMap.entries()))
+        .filter(([id]) => id !== parentNodeId)
+        .filter(([id]) => id.includes(parentNodeId)),
     );
+
+    console.log(
+      parentNodeId, childNodeId
+    );
+    // console.log(mousePosition, parentNodeId, childNodeId.split('/').at(-1) as string)
 
     return {
       parentNodeId,
@@ -94,7 +99,7 @@ export class Calculator {
       childNodeRect,
       axis: getNextElementPosition(
         this.containerNodeComputedStyleMap.get(parentNodeId) as any,
-        this.baseNodeComputedStyleMap.get(childNodeId) as any,
+        this.baseNodeComputedStyleMap.get(childNodeId) ?? this.containerNodeComputedStyleMap.get(childNodeId) as any,
       ),
     };
   }

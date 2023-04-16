@@ -4,11 +4,11 @@ import RefStore, { RefStoreContext } from '../store/RefContext';
 import { Calculator } from './Calculator';
 
 interface IEditorEvent extends MessageEvent<any> {
-    data: {
-      type: 'drop' | 'hover' | 'drag-start';
-      data?: any;
-    };
-  }
+  data: {
+    type: 'drop' | 'hover' | 'drag-start';
+    data?: any;
+  };
+}
 
 const example = {
   componentType: 'box',
@@ -22,14 +22,50 @@ const example = {
     {
       componentType: 'base',
       type: 'Text',
-      id: 'node_oc45',
-      path: 'node_1234/node_oc45',
+      id: 'node_oc42',
+      path: 'node_1234/node_oc42',
+
       layout: {
         w: '100px',
         h: '100px',
       },
       text: '${info}！！',
       body: [],
+    },
+    {
+      componentType: 'box',
+      type: 'Div',
+      id: 'node_22',
+      path: 'node_1234/node_22',
+      layout: {
+        w: '200px',
+        h: '200px'
+      },
+      body: [
+        {
+          componentType: 'base',
+          type: 'Button',
+          id: 'node_oc45',
+          path: 'node_1234/node_22/node_oc45',
+          layout: {
+            w: '100px',
+            h: '100px',
+          },
+          label: '发起请求1',
+        },
+      ],
+    },
+    {
+      componentType: 'base',
+      type: 'Button',
+      id: 'node_oc41',
+      path: 'node_1234/node_oc41',
+      layout: {
+        w: '100px',
+        h: '100px',
+        y: '20px',
+      },
+      label: '发起请求2',
     },
     {
       componentType: 'base',
@@ -39,6 +75,7 @@ const example = {
       layout: {
         w: '100px',
         h: '100px',
+        y: '20px',
       },
       label: '发起请求',
       onEvent: {

@@ -8,7 +8,7 @@ const Panel = (props: any) => {
     <div
       className={styles.Panel}
       style={{
-        display: open ? 'block' : 'none',
+        display: open ? 'inline-block' : 'none',
         width: `${width}px`,
         left: `${left}px`,
       }}

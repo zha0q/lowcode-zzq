@@ -1,30 +1,28 @@
-// import Wrapper from '@/components/Wrapper';
-import Wrapper from '@/components/Wrapper';
 import { Button as AntdButton } from 'antd';
 import React from 'react';
 
-const Button = React.forwardRef((props: any, ref) => {
-  const {
-    block,
-    label,
-    level,
-    size,
-    confirm,
-    confirmText,
-    loading,
-    loadingOn,
+const Button = React.forwardRef(
+  (props: any, ref: React.Ref<HTMLButtonElement>) => {
+    const {
+      block,
+      label,
+      level,
+      size,
+      confirm,
+      confirmText,
+      loading,
+      loadingOn,
+      layout,
+      onEvent,
+    } = props.schema;
+    const { $ } = props;
 
-    layout,
-    onEvent,
-  } = props.schema;
-  const { $ } = props;
-
-  const handleClick = (e: any) => {
-    $.dispatchEvent(e, $.renderer, {});
-  };
-  return (
-    // <Wrapper ref={ref}>
+    const handleClick = (e: any) => {
+      $.dispatchEvent(e, $.renderer, {});
+    };
+    return (
       <AntdButton
+        ref={ref}
         style={{
           position: layout.position,
           height: layout.h,
@@ -40,8 +38,8 @@ const Button = React.forwardRef((props: any, ref) => {
       >
         {$.parseTemplate(label)}
       </AntdButton>
-    // </Wrapper>
-  );
-});
+    );
+  },
+);
 
 export default Button;

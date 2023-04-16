@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
-import { FieldNodeSchema } from '../../../../app/codeTree';
 import { CRAD } from '../../../../ItemTypes';
 import { useDrop } from 'react-dnd';
 import cl from 'classnames';
