@@ -53,31 +53,36 @@ export class Calculator {
     console.log(materialsMap);
   }
 
-  calcu(mousePosition: { x: number; y: number }): ILayoutInfo {
+
+  calcu(mousePosition: { x: number; y: number }): ILayoutInfo | undefined {
     let parentNodeId = '';
     let childNodeId = '';
     let parentNdoeRect = undefined;
     let childNodeRect = undefined;
 
-    [parentNodeId, parentNdoeRect] = Array.from(
-      this.containerNodeRectMap.entries(),
-    )
-      .filter(([, rect]) => isMouseInDom(mousePosition, rect))
-      .filter(
-        ([id]) =>
-          this.containerNodeComputedStyleMap.get(id)?.display !== 'none',
+    try {
+      [parentNodeId, parentNdoeRect] = Array.from(
+        this.containerNodeRectMap.entries(),
       )
-      .reduce(([resultId, resultRect], [id, rect]) => {
-        const resultStyle = this.containerNodeComputedStyleMap.get(
-          resultId,
-        ) as CSSStyleDeclaration;
-        const currStyle = this.containerNodeComputedStyleMap.get(
-          id,
-        ) as CSSStyleDeclaration;
-        if (isSecondElementHigher(resultStyle, currStyle))
-          return [resultId, resultRect];
-        else return [id, rect];
-      });
+        .filter(([, rect]) => isMouseInDom(mousePosition, rect))
+        .filter(
+          ([id]) =>
+            this.containerNodeComputedStyleMap.get(id)?.display !== 'none',
+        )
+        .reduce(([resultId, resultRect], [id, rect]) => {
+          const resultStyle = this.containerNodeComputedStyleMap.get(
+            resultId,
+          ) as CSSStyleDeclaration;
+          const currStyle = this.containerNodeComputedStyleMap.get(
+            id,
+          ) as CSSStyleDeclaration;
+          if (isSecondElementHigher(resultStyle, currStyle))
+            return [resultId, resultRect];
+          else return [id, rect];
+        });
+    } catch {
+      return;
+    }
 
     [childNodeId, childNodeRect] = findNearestDomId(
       mousePosition,
@@ -86,11 +91,6 @@ export class Calculator {
         .filter(([id]) => id !== parentNodeId)
         .filter(([id]) => id.includes(parentNodeId)),
     );
-
-    console.log(
-      parentNodeId, childNodeId
-    );
-    // console.log(mousePosition, parentNodeId, childNodeId.split('/').at(-1) as string)
 
     return {
       parentNodeId,

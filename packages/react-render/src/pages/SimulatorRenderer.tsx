@@ -48,8 +48,8 @@ const example = {
           id: 'node_oc45',
           path: 'node_1234/node_22/node_oc45',
           layout: {
-            w: '100px',
-            h: '100px',
+            w: '150px',
+            h: '150px',
           },
           label: '发起请求1',
         },
@@ -115,7 +115,7 @@ const SimulatorRenderer = () => {
             // 计算maskInfo 并发送回editor
             window.parent.postMessage(
               {
-                type: 'insert',
+                type: 'paint',
                 data: calculator.calcu(ev.data.data),
               },
               '*',

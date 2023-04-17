@@ -34,8 +34,8 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
       case 'x':
         strokeRect = [
           childNodeRect.x + childNodeRect.width,
-          childNodeRect.y,
-          4,
+          childNodeRect.y + 4,
+          3,
           childNodeRect.height,
         ];
         break;
@@ -44,7 +44,7 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
           childNodeRect.x,
           childNodeRect.y + childNodeRect.height,
           childNodeRect.width,
-          4,
+          3,
         ];
         break;
       default:
@@ -59,7 +59,7 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
     );
     // 绘制
     if (hover) {
-      (canvasCtx.current as CanvasRenderingContext2D).fillStyle = 'green';
+      (canvasCtx.current as CanvasRenderingContext2D).fillStyle = '#006DFE';
       canvasCtx?.current?.fillRect(...strokeRect);
     }
   };

@@ -1,48 +1,67 @@
-export function isMouseInDom(mousePosition: { x: number, y: number }, rect: DOMRect): boolean {
-    return (
-        mousePosition.x >= rect.left && // check if mouse x position is greater than or equal to the left edge of the DOM element
-        mousePosition.x <= rect.right && // check if mouse x position is less than or equal to the right edge of the DOM element
-        mousePosition.y >= rect.top && // check if mouse y position is greater than or equal to the top edge of the DOM element
-        mousePosition.y <= rect.bottom // check if mouse y position is less than or equal to the bottom edge of the DOM element
+export function isMouseInDom(
+  mousePosition: { x: number; y: number },
+  rect: DOMRect,
+): boolean {
+  return (
+    mousePosition.x >= rect.left && // check if mouse x position is greater than or equal to the left edge of the DOM element
+    mousePosition.x <= rect.right && // check if mouse x position is less than or equal to the right edge of the DOM element
+    mousePosition.y >= rect.top && // check if mouse y position is greater than or equal to the top edge of the DOM element
+    mousePosition.y <= rect.bottom // check if mouse y position is less than or equal to the bottom edge of the DOM element
+  );
+}
+
+export function isSecondElementHigher(
+  firstElementStyle: CSSStyleDeclaration,
+  secondElementStyle: CSSStyleDeclaration,
+): boolean {
+  const firstElementZIndex = parseInt(firstElementStyle.zIndex);
+  const secondElementZIndex = parseInt(secondElementStyle.zIndex);
+  if (secondElementZIndex > firstElementZIndex) {
+    return true;
+  }
+  if (secondElementZIndex === firstElementZIndex) {
+    const firstElementPosition = firstElementStyle.position;
+    const secondElementPosition = secondElementStyle.position;
+    if (secondElementPosition === 'static') {
+      return false;
+    }
+    if (firstElementPosition === 'static') {
+      return true;
+    }
+    if (
+      secondElementPosition === 'relative' &&
+      firstElementPosition !== 'relative'
+    ) {
+      return true;
+    }
+    if (
+      secondElementPosition === 'absolute' &&
+      firstElementPosition !== 'absolute' &&
+      firstElementPosition !== 'relative'
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function findNearestDomId(
+  mousePosition: { x: number; y: number },
+  domRectList: [id: string, rect: DOMRect][],
+): [id: string, rect: DOMRect] {
+  let nearestDom;
+  let minDistance = Number.MAX_VALUE;
+  for (const [id, rect] of domRectList) {
+    const distance = Math.sqrt(
+      Math.pow(rect.right - mousePosition.x, 2) +
+        Math.pow(rect.bottom - mousePosition.y, 2),
     );
-}
-
-export function isSecondElementHigher(firstElementStyle: CSSStyleDeclaration, secondElementStyle: CSSStyleDeclaration): boolean {
-    const firstElementZIndex = parseInt(firstElementStyle.zIndex);
-    const secondElementZIndex = parseInt(secondElementStyle.zIndex);
-    if (secondElementZIndex > firstElementZIndex) {
-        return true;
+    if (distance < minDistance) {
+      minDistance = distance;
+      nearestDom = [id, rect];
     }
-    if (secondElementZIndex === firstElementZIndex) {
-        const firstElementPosition = firstElementStyle.position;
-        const secondElementPosition = secondElementStyle.position;
-        if (secondElementPosition === 'static') {
-            return false;
-        }
-        if (firstElementPosition === 'static') {
-            return true;
-        }
-        if (secondElementPosition === 'relative' && firstElementPosition !== 'relative') {
-            return true;
-        }
-        if (secondElementPosition === 'absolute' && firstElementPosition !== 'absolute' && firstElementPosition !== 'relative') {
-            return true;
-        }
-    }
-    return false;
-}
-
-export function findNearestDomId(mousePosition: { x: number, y: number }, domRectList: [id: string, rect: DOMRect][]): [id: string, rect: DOMRect] {
-    let nearestDom;
-    let minDistance = Number.MAX_VALUE;
-    for (const [id, rect] of domRectList) {
-        const distance = Math.sqrt(Math.pow(rect.right - mousePosition.x, 2) + Math.pow(rect.bottom - mousePosition.y, 2));
-        if (distance < minDistance) {
-            minDistance = distance;
-            nearestDom = [id, rect];
-        }
-    }
-    return nearestDom as any;
+  }
+  return nearestDom as any;
 }
 
 /**
@@ -51,12 +70,18 @@ export function findNearestDomId(mousePosition: { x: number, y: number }, domRec
  * @param childStyle 子元素的CSSStyleDeclaration
  * @returns 'x'或者'y'
  */
-export function getNextElementPosition(parentStyle: CSSStyleDeclaration, childStyle: CSSStyleDeclaration): 'x' | 'y' {
+export function getNextElementPosition(
+  parentStyle: CSSStyleDeclaration,
+  childStyle: CSSStyleDeclaration,
+): 'x' | 'y' {
   const parentDisplay = parentStyle.display;
   const childDisplay = childStyle.display;
   if (parentDisplay === 'flex' || parentDisplay === 'inline-flex') {
     const parentFlexDirection = parentStyle.flexDirection;
-    if (parentFlexDirection === 'row' || parentFlexDirection === 'row-reverse') {
+    if (
+      parentFlexDirection === 'row' ||
+      parentFlexDirection === 'row-reverse'
+    ) {
       return 'x';
     } else {
       return 'y';
@@ -64,9 +89,17 @@ export function getNextElementPosition(parentStyle: CSSStyleDeclaration, childSt
   } else if (parentDisplay === 'grid' || parentDisplay === 'inline-grid') {
     const parentGridTemplateColumns = parentStyle.gridTemplateColumns;
     const parentGridTemplateRows = parentStyle.gridTemplateRows;
-    if (parentGridTemplateColumns !== 'none' && parentGridTemplateColumns !== 'initial' && parentGridTemplateColumns !== 'inherit') {
+    if (
+      parentGridTemplateColumns !== 'none' &&
+      parentGridTemplateColumns !== 'initial' &&
+      parentGridTemplateColumns !== 'inherit'
+    ) {
       return 'x';
-    } else if (parentGridTemplateRows !== 'none' && parentGridTemplateRows !== 'initial' && parentGridTemplateRows !== 'inherit') {
+    } else if (
+      parentGridTemplateRows !== 'none' &&
+      parentGridTemplateRows !== 'initial' &&
+      parentGridTemplateRows !== 'inherit'
+    ) {
       return 'y';
     } else {
       return 'x';

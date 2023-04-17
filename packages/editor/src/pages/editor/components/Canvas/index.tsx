@@ -17,7 +17,7 @@ interface DragItem {}
 interface ILayoutInfo {
   parentNodeId: string;
   childNodeId: string;
-  parentNdoeRect: DOMRect;
+  parentNodeRect: DOMRect;
   childNodeRect: DOMRect;
   axis: IAxis;
 }
@@ -35,7 +35,7 @@ const Canvas = () => {
     eventBusRef.current = new EventBus();
 
     window.addEventListener('message', (e: any) => {
-      if (e.data.type === 'insert') {
+      if (e.data.type === 'paint') {
         setLayoutInfo(e.data.data);
       }
     });
@@ -76,7 +76,10 @@ const Canvas = () => {
           eventBusRef.current?.emit('drag-start', []);
           return true;
         }
-        eventBusRef.current?.emit('hover', [monitor.getClientOffset()]);
+        eventBusRef.current?.emit('hover', [{
+          x: (monitor.getClientOffset()?.x || 0) - 45 + document.documentElement.scrollLeft,
+          y: (monitor.getClientOffset()?.y || 0) + document.documentElement.scrollTop
+        }]);
         return true;
       });
     },

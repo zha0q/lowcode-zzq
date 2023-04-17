@@ -23,9 +23,10 @@ const BaseComponent: React.FC<any> = (props: any) => {
 
   // 绑定ref
   useEffect(() => {
-    console.log(componentRef);
-    if(schema.componentType === 'base') addRef(schema.path, schema.componentType, componentRef.current);
-    else addRef(schema.id, schema.componentType, componentRef.current);
+    //TODO: 兼容一个bug：BaseComponent收集ref时 父子关系的组件有可能收集顺序不同，导致子组件未渲染完成的时候获取rect？？
+    setTimeout(() => {
+      addRef(schema.path, schema.componentType, componentRef.current);
+    })
     return () => offRef(schema.id);
   }, []);
 
