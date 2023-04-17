@@ -28,10 +28,16 @@ const Col = (props: any) => {
       overlayInnerStyle={{ fontSize: '12px' }}
     >
       <div
-        className={active ? classNames(styles.Col, styles.Activated) : styles.Col}
+        className={
+          active ? classNames(styles.Col, styles.Activated) : styles.Col
+        }
         onClick={handleClick}
       >
-        <Logo width={20} height={20} style={active ? { color: '#3897f5' } : {}} />
+        <Logo
+          width={20}
+          height={20}
+          style={active ? { color: '#3897f5' } : {}}
+        />
       </div>
     </Tooltip>
   );
@@ -62,15 +68,9 @@ export default function (props: {
             {[
               {
                 type: 'button',
-                props: { children: '我的按钮' },
-                children: [],
               },
               {
                 type: 'div',
-                props: {
-                  className: '',
-                },
-                children: [],
               },
             ].map((item, index) => (
               <DragBox key={index} data={item} setCollapsed={setCollapsed} />

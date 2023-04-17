@@ -24,7 +24,7 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
   const canvasCtx = useRef<CanvasRenderingContext2D>();
 
   const paint = () => {
-    if(!info) return;
+    if(!info || !info.childNodeRect) return;
     const { childNodeRect, axis } = info;
 
     let strokeRect: [number, number, number, number] = [0, 0, 0, 0];
@@ -76,7 +76,6 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
     (canvasRef.current as HTMLCanvasElement).height = wrapperRect.height;
     (canvasRef.current as HTMLCanvasElement).width = wrapperRect.width;
 
-    paint();
   }, []);
 
   // CanvasRenderingContext2D.clearRect()

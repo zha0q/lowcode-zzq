@@ -7,6 +7,7 @@ import FormEditor from './components/FormEditor';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Canvas from './components/Canvas';
+import Store from './store';
 
 function Editor() {
   const { Header, Content, Footer, Sider } = Layout;
@@ -28,7 +29,8 @@ function Editor() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Layout hasSider>
+      <Store>
+        <Layout hasSider>
           <div className={styles.Layout}>
             <MaterialsEditor Sider={Sider} />
             {/* <Container Content={Content} /> */}
@@ -42,7 +44,8 @@ function Editor() {
               <FormEditor />
             </Drawer>
           </div>
-      </Layout>
+        </Layout>
+      </Store>
     </DndProvider>
   );
 }

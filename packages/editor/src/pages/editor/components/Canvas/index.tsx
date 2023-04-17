@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CRAD } from '../../../../ItemTypes';
 import { useDrop } from 'react-dnd';
-import cl from 'classnames';
-import Item from './Item';
 import styles from './index.less';
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import Mask from './Mask';
-import { EventBus } from './utils';
+import { StoreContext } from '../../store';
 
 // TODO：对position：absolute 布局 特殊处理拖拽，使用react-grid-layout 进行grid布局拖拽 ?
 // TODO: 在画布上 有一个iframe和iframe遮罩画布，拖拽开始渲染器传回每个组件位置信息（可放入组件信息）用
@@ -26,41 +23,47 @@ export type IAxis = 'x' | 'y';
 
 const Canvas = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const eventBusRef = useRef<EventBus>();
 
-  const [layoutInfo, setLayoutInfo] = useState<ILayoutInfo>();
+  const { eventBus, schema, addSchema, layoutInfo, setLayoutInfo } = useContext(
+    StoreContext,
+  ) as any;
+
   const [isHover, setIsHover] = useState<boolean>(false);
 
   useEffect(() => {
-    eventBusRef.current = new EventBus();
-
     window.addEventListener('message', (e: any) => {
       if (e.data.type === 'paint') {
         setLayoutInfo(e.data.data);
       }
     });
 
-    eventBusRef.current.on('drag-start', ([]) => {
+    eventBus.on('drag-start', ([]) => {
       (iframeRef.current as HTMLIFrameElement).contentWindow?.postMessage(
         { type: 'drag-start' },
         '*',
       );
     });
 
-    eventBusRef.current.on('hover', ([mouseInfo]) => {
+    eventBus.on('hover', ([mouseInfo]) => {
       (iframeRef.current as HTMLIFrameElement).contentWindow?.postMessage(
         { type: 'hover', data: mouseInfo },
         '*',
       );
     });
 
-    eventBusRef.current.on('drop', ([schema]) => {
+    eventBus.on('schema', ([schema]) => {
       (iframeRef.current as HTMLIFrameElement).contentWindow?.postMessage(
-        { type: 'drop', data: schema },
+        { type: 'schema', data: schema },
         '*',
       );
     });
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      eventBus.emit('schema', [JSON.stringify(schema)]);
+    }, 1000)
+  }, [schema]);
 
   const [{ canDrop, isOver }, drop] = useDrop<
     DragItem,
@@ -73,13 +76,20 @@ const Canvas = () => {
     hover: (item, monitor) => {
       setIsHover((isHover) => {
         if (!isHover) {
-          eventBusRef.current?.emit('drag-start', []);
+          eventBus?.emit('drag-start', []);
           return true;
         }
-        eventBusRef.current?.emit('hover', [{
-          x: (monitor.getClientOffset()?.x || 0) - 45 + document.documentElement.scrollLeft,
-          y: (monitor.getClientOffset()?.y || 0) + document.documentElement.scrollTop
-        }]);
+        eventBus?.emit('hover', [
+          {
+            x:
+              (monitor.getClientOffset()?.x || 0) -
+              45 +
+              document.documentElement.scrollLeft,
+            y:
+              (monitor.getClientOffset()?.y || 0) +
+              document.documentElement.scrollTop,
+          },
+        ]);
         return true;
       });
     },
@@ -92,6 +102,10 @@ const Canvas = () => {
         return;
       }
       setIsHover(false);
+
+      addSchema(item?.data);
+
+      eventBus.emit('schema', [JSON.stringify(schema)]);
 
       return { name: 'Dustbin' };
     },
