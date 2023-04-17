@@ -8,6 +8,7 @@ import { ReactComponent as JsOutlined } from '../../../../assets/svg/outlined/js
 import { ReactComponent as OdbcOutlined } from '../../../../assets/svg/outlined/odbc.svg';
 import DragBox from './DragBox';
 import Panel from './Panel';
+import classNames from 'classnames';
 
 type Category = 'outline' | 'component' | 'database' | 'code';
 
@@ -27,11 +28,10 @@ const Col = (props: any) => {
       overlayInnerStyle={{ fontSize: '12px' }}
     >
       <div
-        style={active ? { color: '#3897f5' } : {}}
-        className={styles.Col}
+        className={active ? classNames(styles.Col, styles.Activated) : styles.Col}
         onClick={handleClick}
       >
-        <Logo width={20} height={20} />
+        <Logo width={20} height={20} style={active ? { color: '#3897f5' } : {}} />
       </div>
     </Tooltip>
   );
