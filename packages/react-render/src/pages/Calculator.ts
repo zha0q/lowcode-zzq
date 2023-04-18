@@ -4,7 +4,10 @@ import {
   isMouseInDom,
   isSecondElementHigher,
   getNextElementPosition,
+  isMouseXInDomXPlusFive,
 } from './utils';
+
+import { cloneDeep } from 'lodash';
 
 export type IAxis = 'x' | 'y';
 
@@ -52,7 +55,6 @@ export class Calculator {
     });
   }
 
-
   calcu(mousePosition: { x: number; y: number }): ILayoutInfo | undefined {
     let parentNodeId = '';
     let childNodeId = '';
@@ -75,31 +77,56 @@ export class Calculator {
           const currStyle = this.containerNodeComputedStyleMap.get(
             id,
           ) as CSSStyleDeclaration;
-          if (isSecondElementHigher(resultStyle, currStyle))
-            return [resultId, resultRect];
-          else return [id, rect];
+          if (
+            currStyle.position === 'static' &&
+            resultStyle.position === 'static'
+          ) {
+            if (id.includes(resultId)) return [id, rect];
+            if (resultId.includes(id)) return [resultId, resultRect];
+          }
+          if (isSecondElementHigher(resultStyle, currStyle)) return [id, rect];
+          else return [resultId, resultRect];
         });
     } catch {
       return;
     }
 
-    [childNodeId, childNodeRect] = findNearestDomId(
-      mousePosition,
-      Array.from(this.baseNodeRectMap.entries())
-        .concat(Array.from(this.containerNodeRectMap.entries()))
-        .filter(([id]) => id !== parentNodeId)
-        .filter(([id]) => id.includes(parentNodeId)),
-    );
+    const childDomRectList = Array.from(this.baseNodeRectMap.entries())
+      .concat(Array.from(this.containerNodeRectMap.entries()))
+      .filter(([id]) => id !== parentNodeId)
+      .filter(([id]) => id.includes(parentNodeId));
+
+    [childNodeId, childNodeRect] =
+      childDomRectList.length &&
+      !isMouseXInDomXPlusFive(mousePosition, parentNodeRect)
+        ? findNearestDomId(mousePosition, childDomRectList)
+        : [
+            '',
+            new DOMRect(
+              parentNodeRect.x,
+              parentNodeRect.y,
+              1,
+              parentNodeRect.height,
+            ),
+          ];
+
+    const axis =
+      childDomRectList.length &&
+      !isMouseXInDomXPlusFive(mousePosition, parentNodeRect)
+        ? getNextElementPosition(
+            this.containerNodeComputedStyleMap.get(parentNodeId) as any,
+            this.baseNodeComputedStyleMap.get(childNodeId) ??
+              (this.containerNodeComputedStyleMap.get(childNodeId) as any),
+          )
+        : 'x';
+
 
     return {
       parentNodeId,
       childNodeId,
       parentNodeRect,
       childNodeRect,
-      axis: getNextElementPosition(
-        this.containerNodeComputedStyleMap.get(parentNodeId) as any,
-        this.baseNodeComputedStyleMap.get(childNodeId) ?? this.containerNodeComputedStyleMap.get(childNodeId) as any,
-      ),
+      axis,
     };
   }
 }

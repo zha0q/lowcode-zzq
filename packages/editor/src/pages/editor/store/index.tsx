@@ -48,17 +48,17 @@ const example = {
             h: '200px',
           },
           body: [
-            {
-              componentType: 'base',
-              type: 'Button',
-              id: 'node_oc45',
-              path: 'node_1234/node_22/node_oc45',
-              layout: {
-                w: '150px',
-                h: '150px',
-              },
-              label: '发起请求1',
-            },
+            // {
+            //   componentType: 'base',
+            //   type: 'Button',
+            //   id: 'node_oc45',
+            //   path: 'node_1234/node_22/node_oc45',
+            //   layout: {
+            //     w: '150px',
+            //     h: '150px',
+            //   },
+            //   label: '发起请求1',
+            // },
           ],
         },
         {
@@ -132,7 +132,11 @@ function Store(props: { children: any }) {
       ).default;
       _component.id = uuid();
       _component.path = `${this.layoutInfo.parentNodeId}/${_component.id}`;
-      _schema.body.push(_component);
+      if(childNodePath) {
+        _schema.body.splice(_schema.body.findIndex((_comp: any) => _comp.id === childNodePath.at(-1)) + 1, 0, _component);
+      } else {
+        _schema.body.push(_component);
+      }
     },
   }));
 

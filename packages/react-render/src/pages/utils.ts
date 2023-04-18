@@ -54,7 +54,7 @@ export function findNearestDomId(
   for (const [id, rect] of domRectList) {
     const distance = Math.sqrt(
       Math.pow(rect.right - mousePosition.x, 2) +
-        Math.pow(rect.bottom - mousePosition.y, 2),
+      Math.pow(rect.bottom - mousePosition.y, 2),
     );
     if (distance < minDistance) {
       minDistance = distance;
@@ -111,4 +111,14 @@ export function getNextElementPosition(
       return 'y';
     }
   }
+}
+
+export function isMouseXInDomXPlusFive(
+  mousePosition: { x: number; y: number },
+  rect: DOMRect,
+): boolean {
+  return (
+    mousePosition.x >= rect.x && // check if mouse x position is greater than or equal to the left edge of the DOM element plus 5
+    mousePosition.x <= rect.x + 8
+  );
 }

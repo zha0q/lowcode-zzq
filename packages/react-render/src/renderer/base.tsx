@@ -29,7 +29,7 @@ const BaseComponent: React.FC<any> = (props: any) => {
       addRef(schema.path, schema.componentType, componentRef.current);
     });
     return () => offRef(schema.id);
-  }, [schema]);
+  }, [schema, componentRef]);
 
   // schema中的data改变时
   useEffect(() => {
