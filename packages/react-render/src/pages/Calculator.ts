@@ -11,7 +11,7 @@ export type IAxis = 'x' | 'y';
 interface ILayoutInfo {
   parentNodeId: string;
   childNodeId: string;
-  parentNdoeRect: DOMRect;
+  parentNodeRect: DOMRect;
   childNodeRect: DOMRect;
   axis: IAxis;
 }
@@ -50,18 +50,17 @@ export class Calculator {
         );
       }
     });
-    console.log(materialsMap);
   }
 
 
   calcu(mousePosition: { x: number; y: number }): ILayoutInfo | undefined {
     let parentNodeId = '';
     let childNodeId = '';
-    let parentNdoeRect = undefined;
+    let parentNodeRect = undefined;
     let childNodeRect = undefined;
 
     try {
-      [parentNodeId, parentNdoeRect] = Array.from(
+      [parentNodeId, parentNodeRect] = Array.from(
         this.containerNodeRectMap.entries(),
       )
         .filter(([, rect]) => isMouseInDom(mousePosition, rect))
@@ -94,8 +93,8 @@ export class Calculator {
 
     return {
       parentNodeId,
-      childNodeId: childNodeId.split('/').at(-1) as string,
-      parentNdoeRect,
+      childNodeId,
+      parentNodeRect,
       childNodeRect,
       axis: getNextElementPosition(
         this.containerNodeComputedStyleMap.get(parentNodeId) as any,

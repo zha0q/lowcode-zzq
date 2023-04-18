@@ -1,6 +1,6 @@
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import React from 'react';
-import { reaction } from 'mobx';
+import { reaction, toJS } from 'mobx';
 
 export const RootStoreContext = React.createContext(null) as any;
 

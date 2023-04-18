@@ -24,7 +24,7 @@ export const RootRenderer = (props: any) => {
         schema: _schema,
       });
     });
-  }, []);
+  }, [schema]);
 
   const handleAction = (e: Event, action: any, rootStore: any) => {
     if (

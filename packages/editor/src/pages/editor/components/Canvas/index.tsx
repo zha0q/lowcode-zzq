@@ -59,11 +59,9 @@ const Canvas = () => {
     });
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      eventBus.emit('schema', [JSON.stringify(schema)]);
-    }, 1000)
-  }, [schema]);
+  const recieveSchema = () => {
+    eventBus.emit('schema', [JSON.stringify(schema)]);
+  };
 
   const [{ canDrop, isOver }, drop] = useDrop<
     DragItem,
@@ -105,7 +103,7 @@ const Canvas = () => {
 
       addSchema(item?.data);
 
-      eventBus.emit('schema', [JSON.stringify(schema)]);
+      recieveSchema();
 
       return { name: 'Dustbin' };
     },
@@ -123,6 +121,7 @@ const Canvas = () => {
         ref={iframeRef}
         className={styles.Iframe}
         src="http://localhost:8001"
+        onLoad={recieveSchema}
       />
     </div>
   );

@@ -125,7 +125,6 @@ function Store(props: { children: any }) {
       const childNodePath = this.layoutInfo.childNodeId.split('/');
       let _schema = this.schema as any;
       parentNodePath.forEach((_id: string) => {
-        console.log(_schema.body, _id);
         _schema = _schema.body.find((_comp: any) => _comp.id === _id);
       });
       const _component = Schema.find(
@@ -133,7 +132,6 @@ function Store(props: { children: any }) {
       ).default;
       _component.id = uuid();
       _component.path = `${this.layoutInfo.parentNodeId}/${_component.id}`;
-      console.log(_component)
       _schema.body.push(_component);
     },
   }));
