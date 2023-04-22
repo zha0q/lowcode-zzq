@@ -1,8 +1,8 @@
 import { observer, useLocalObservable } from 'mobx-react-lite';
 import React from 'react';
-import Schema from '@/components/schema';
+import Schema from '@zha0q/ui-schema';
 import { v1 as uuid } from 'uuid';
-import { EventBus } from './utils';
+import { EventBus, transferSchema2Tree } from './utils';
 
 interface ILayoutInfo {
   parentNodeId: string;
@@ -15,10 +15,13 @@ interface ILayoutInfo {
 export type IAxis = 'x' | 'y';
 
 const example = {
+  title: '应用',
+  id: '',
   body: [
     {
       componentType: 'box',
       type: 'Page',
+      title: '页面',
       id: 'node_1234',
       path: 'node_1234',
       data: {
@@ -28,6 +31,7 @@ const example = {
         {
           componentType: 'base',
           type: 'Text',
+          title: '文本',
           id: 'node_oc42',
           path: 'node_1234/node_oc42',
 
@@ -41,6 +45,7 @@ const example = {
         {
           componentType: 'box',
           type: 'Div',
+          title: '容器',
           id: 'node_22',
           path: 'node_1234/node_22',
           layout: {
@@ -64,6 +69,7 @@ const example = {
         {
           componentType: 'base',
           type: 'Button',
+          title: '按钮',
           id: 'node_oc41',
           path: 'node_1234/node_oc41',
           layout: {
@@ -76,6 +82,7 @@ const example = {
         {
           componentType: 'base',
           type: 'Button',
+          title: '按钮',
           id: 'node_oc46',
           path: 'node_1234/node_oc46',
           layout: {
@@ -119,6 +126,10 @@ function Store(props: { children: any }) {
     eventBus: new EventBus(),
 
     schema: example,
+
+    get schemaTree() {
+      return transferSchema2Tree(this.schema);
+    },
 
     addSchema(materials: any) {
       const parentNodePath = this.layoutInfo.parentNodeId.split('/');

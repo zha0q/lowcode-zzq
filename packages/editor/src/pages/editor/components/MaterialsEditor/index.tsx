@@ -1,5 +1,5 @@
-import { SiderProps, Tooltip } from 'antd';
-import { useRef, useState } from 'react';
+import { SiderProps, Tooltip, Tree } from 'antd';
+import { useContext, useRef, useState } from 'react';
 import styles from './index.less';
 
 import { ReactComponent as ParagraphOutlined } from '../../../../assets/svg/outlined/paragraph.svg';
@@ -9,6 +9,7 @@ import { ReactComponent as OdbcOutlined } from '../../../../assets/svg/outlined/
 import DragBox from './DragBox';
 import Panel from './Panel';
 import classNames from 'classnames';
+import { StoreContext } from '../../store';
 
 type Category = 'outline' | 'component' | 'database' | 'code';
 
@@ -61,7 +62,12 @@ export default function (props: {
   };
 
   const renderContent = () => {
+    const { schemaTree } = useContext(StoreContext) as any;
+    console.log(schemaTree)
     switch (category) {
+      case 'outline':
+        return <Tree checkable treeData={[schemaTree]} />;
+        break;
       case 'component':
         return (
           <div className={styles.Content}>
@@ -77,6 +83,7 @@ export default function (props: {
             ))}
           </div>
         );
+        break;
     }
   };
 

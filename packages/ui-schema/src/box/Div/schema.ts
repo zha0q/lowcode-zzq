@@ -1,5 +1,5 @@
 export default {
-  type: 'div',
+  type: 'Div',
   default: {
     componentType: 'box',
     type: 'Div',

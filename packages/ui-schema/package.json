@@ -1,0 +1,16 @@
+{
+  "name": "@zha0q/ui-schema",
+  "private": false,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "lib/index.mjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "esbuild src/index.ts --outfile=lib/index.mjs --bundle --sourcemap --platform=neutral --external:cosmokit --target=esnext"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "esbuild": "^0.17.10",
+    "esbuild-register": "^3.4.2"
+  }
+}

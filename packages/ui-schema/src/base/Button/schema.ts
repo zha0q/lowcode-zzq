@@ -1,5 +1,5 @@
 const ButtonSchema: any = {
-  type: 'button',
+  type: 'Button',
   schema:
   [
     {

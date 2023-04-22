@@ -1,5 +1,5 @@
 const TextSchema: any = {
-  type: 'text',
+  type: 'Text',
   schema: [
     {
       fieldKey: 'text',
