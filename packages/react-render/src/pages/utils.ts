@@ -13,7 +13,16 @@ export function isMouseInDom(
 export function isSecondElementHigher(
   firstElementStyle: CSSStyleDeclaration,
   secondElementStyle: CSSStyleDeclaration,
+  resultId: string,
+  id: string,
 ): boolean {
+  if (
+    secondElementStyle.position === 'static' &&
+    firstElementStyle.position === 'static'
+  ) {
+    if (id.includes(resultId)) return true;
+    if (resultId.includes(id)) return false;
+  }
   const firstElementZIndex = parseInt(firstElementStyle.zIndex);
   const secondElementZIndex = parseInt(secondElementStyle.zIndex);
   if (secondElementZIndex > firstElementZIndex) {
@@ -54,7 +63,7 @@ export function findNearestDomId(
   for (const [id, rect] of domRectList) {
     const distance = Math.sqrt(
       Math.pow(rect.right - mousePosition.x, 2) +
-      Math.pow(rect.bottom - mousePosition.y, 2),
+        Math.pow(rect.bottom - mousePosition.y, 2),
     );
     if (distance < minDistance) {
       minDistance = distance;

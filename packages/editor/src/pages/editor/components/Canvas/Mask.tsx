@@ -18,13 +18,21 @@ type IMaskDrawInfo = {
   axis: IAxis;
 };
 
-const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
+const Mask = ({
+  info,
+  hover,
+  handleClick,
+}: {
+  info: IMaskDrawInfo;
+  hover: boolean;
+  handleClick: React.MouseEventHandler<HTMLDivElement> | undefined;
+}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasCtx = useRef<CanvasRenderingContext2D>();
 
   const paint = () => {
-    if(!info || !info.axis) return;
+    if (!info || !info.axis) return;
     const { childNodeRect, axis } = info;
 
     let strokeRect: [number, number, number, number] = [0, 0, 0, 0];
@@ -75,7 +83,6 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
     ).getBoundingClientRect();
     (canvasRef.current as HTMLCanvasElement).height = wrapperRect.height;
     (canvasRef.current as HTMLCanvasElement).width = wrapperRect.width;
-
   }, []);
 
   // CanvasRenderingContext2D.clearRect()
@@ -85,7 +92,7 @@ const Mask = ({ info, hover }: { info: IMaskDrawInfo; hover: boolean }) => {
   }, [info, hover]);
 
   return (
-    <div ref={wrapperRef} className={styles.Mask}>
+    <div ref={wrapperRef} className={styles.Mask} onClick={handleClick}>
       <canvas ref={canvasRef} />
     </div>
   );

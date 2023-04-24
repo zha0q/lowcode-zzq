@@ -149,6 +149,11 @@ function Store(props: { children: any }) {
         _schema.body.push(_component);
       }
     },
+
+    editId: '',
+    setEditId(id: string) {
+      this.editId = id;
+    }
   }));
 
   return (

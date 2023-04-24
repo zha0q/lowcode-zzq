@@ -7,8 +7,6 @@ import {
   isMouseXInDomXPlusFive,
 } from './utils';
 
-import { cloneDeep } from 'lodash';
-
 export type IAxis = 'x' | 'y';
 
 interface ILayoutInfo {
@@ -77,14 +75,8 @@ export class Calculator {
           const currStyle = this.containerNodeComputedStyleMap.get(
             id,
           ) as CSSStyleDeclaration;
-          if (
-            currStyle.position === 'static' &&
-            resultStyle.position === 'static'
-          ) {
-            if (id.includes(resultId)) return [id, rect];
-            if (resultId.includes(id)) return [resultId, resultRect];
-          }
-          if (isSecondElementHigher(resultStyle, currStyle)) return [id, rect];
+          if (isSecondElementHigher(resultStyle, currStyle, resultId, id))
+            return [id, rect];
           else return [resultId, resultRect];
         });
     } catch {
@@ -120,7 +112,6 @@ export class Calculator {
           )
         : 'x';
 
-
     return {
       parentNodeId,
       childNodeId,
@@ -128,5 +119,27 @@ export class Calculator {
       childNodeRect,
       axis,
     };
+  }
+
+  click(mousePosition: { x: number; y: number }) {
+    console.log(
+      Array.from(this.baseNodeRectMap.entries())
+        .concat(Array.from(this.containerNodeRectMap.entries()))
+        .filter(([, rect]) => isMouseInDom(mousePosition, rect)),
+    );
+    return Array.from(this.baseNodeRectMap.entries())
+      .concat(Array.from(this.containerNodeRectMap.entries()))
+      .filter(([, rect]) => isMouseInDom(mousePosition, rect))
+      .reduce(([resultId, resultRect], [id, rect]) => {
+        const resultStyle =
+          this.containerNodeComputedStyleMap.get(resultId) ??
+          (this.baseNodeComputedStyleMap.get(resultId) as CSSStyleDeclaration);
+        const currStyle =
+          this.containerNodeComputedStyleMap.get(id) ??
+          (this.baseNodeComputedStyleMap.get(id) as CSSStyleDeclaration);
+        if (isSecondElementHigher(resultStyle, currStyle, resultId, id))
+          return [id, rect];
+        else return [resultId, resultRect];
+      })[0];
   }
 }

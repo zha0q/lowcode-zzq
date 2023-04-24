@@ -24,7 +24,7 @@ export type IAxis = 'x' | 'y';
 const Canvas = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const { eventBus, schema, addSchema, layoutInfo, setLayoutInfo } = useContext(
+  const { eventBus, schema, addSchema, layoutInfo, setLayoutInfo, setEditId } = useContext(
     StoreContext,
   ) as any;
 
@@ -34,6 +34,11 @@ const Canvas = () => {
     window.addEventListener('message', (e: any) => {
       if (e.data.type === 'paint') {
         setLayoutInfo(e.data.data);
+      }
+
+      if(e.data.type === 'edit') {
+        console.log(e.data.data);
+        setEditId(e.data.data);
       }
     });
 
@@ -57,11 +62,22 @@ const Canvas = () => {
         '*',
       );
     });
+
+    eventBus.on('edit', ([mouseInfo]) => {
+      (iframeRef.current as HTMLIFrameElement).contentWindow?.postMessage(
+        { type: 'edit', data: mouseInfo },
+        '*',
+      );
+    });
   }, []);
 
   const recieveSchema = () => {
     eventBus.emit('schema', [JSON.stringify(schema)]);
   };
+
+  const handleClick = (e: MouseEvent) => {
+    eventBus.emit('edit', [{x: e.pageX - 45, y: e.pageY}])
+  }
 
   const [{ canDrop, isOver }, drop] = useDrop<
     DragItem,
@@ -116,7 +132,7 @@ const Canvas = () => {
   }));
   return (
     <div ref={drop} className={styles.Canvas}>
-      <Mask info={layoutInfo as ILayoutInfo} hover={isHover} />
+      <Mask info={layoutInfo as ILayoutInfo} hover={isHover} handleClick={handleClick as any} />
       <iframe
         ref={iframeRef}
         className={styles.Iframe}
