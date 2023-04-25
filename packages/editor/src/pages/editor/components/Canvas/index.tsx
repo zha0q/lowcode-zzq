@@ -37,7 +37,9 @@ const Canvas = () => {
       }
 
       if(e.data.type === 'edit') {
-        console.log(e.data.data);
+        const componentPath = e.data.data as string;
+        console.log(componentPath);
+        if(!componentPath.includes('/')) return;
         setEditId(e.data.data);
       }
     });
@@ -118,8 +120,6 @@ const Canvas = () => {
       setIsHover(false);
 
       addSchema(item?.data);
-
-      recieveSchema();
 
       return { name: 'Dustbin' };
     },

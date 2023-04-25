@@ -63,7 +63,6 @@ export default function (props: {
 
   const renderContent = () => {
     const { schemaTree } = useContext(StoreContext) as any;
-    console.log(schemaTree)
     switch (category) {
       case 'outline':
         return <Tree checkable treeData={[schemaTree]} />;
@@ -73,10 +72,10 @@ export default function (props: {
           <div className={styles.Content}>
             {[
               {
-                type: 'button',
+                type: 'Button',
               },
               {
-                type: 'div',
+                type: 'Div',
               },
             ].map((item, index) => (
               <DragBox key={index} data={item} setCollapsed={setCollapsed} />

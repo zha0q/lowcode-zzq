@@ -3,6 +3,7 @@ import React from 'react';
 import Schema from '@zha0q/ui-schema';
 import { v1 as uuid } from 'uuid';
 import { EventBus, transferSchema2Tree } from './utils';
+import { toJS } from 'mobx';
 
 interface ILayoutInfo {
   parentNodeId: string;
@@ -138,22 +139,42 @@ function Store(props: { children: any }) {
       parentNodePath.forEach((_id: string) => {
         _schema = _schema.body.find((_comp: any) => _comp.id === _id);
       });
-      const _component = Schema.find(
-        (_schema) => _schema.type === materials.type,
-      ).default;
+      const _component = structuredClone(
+        Schema.find((_schema: any) => _schema.type === materials.type).default,
+      );
       _component.id = uuid();
       _component.path = `${this.layoutInfo.parentNodeId}/${_component.id}`;
-      if(this.layoutInfo.childNodeId) {
-        _schema.body.splice(_schema.body.findIndex((_comp: any) => _comp.id === childNodePath.at(-1)) + 1, 0, _component);
+      if (this.layoutInfo.childNodeId) {
+        _schema.body.splice(
+          _schema.body.findIndex(
+            (_comp: any) => _comp.id === childNodePath.at(-1),
+          ) + 1,
+          0,
+          _component,
+        );
       } else {
         _schema.body.push(_component);
       }
+      this.eventBus.emit('schema', [JSON.stringify(this.schema)]);
     },
 
     editId: '',
     setEditId(id: string) {
       this.editId = id;
-    }
+    },
+    setEditSchema(formData: any): void {
+      if (!this.editId) return;
+      let _schema = this.schema as any;
+      let type = '';
+      this.editId.split('/').forEach((id: string) => {
+        _schema = _schema.body.find((_comp: any) => _comp.id === id);
+        type = _schema.type;
+      });
+      Object.keys(formData).forEach((_schemaKey) => {
+        _schema[_schemaKey] = formData[_schemaKey];
+      });
+      this.eventBus.emit('schema', [JSON.stringify(this.schema)]);
+    },
   }));
 
   return (
