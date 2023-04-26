@@ -23,13 +23,7 @@ const Button = React.forwardRef(
     return (
       <AntdButton
         ref={ref}
-        style={{
-          position: layout.position,
-          height: layout.h,
-          width: layout.w,
-          top: layout.y,
-          left: layout.x,
-        }}
+        style={layout}
         block={block}
         type={level}
         size={size}

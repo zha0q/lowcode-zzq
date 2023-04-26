@@ -1,0 +1,79 @@
+.Container {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+
+  > * {
+    display: flex;
+    justify-content: center;
+  }
+
+  .Top {
+    flex-direction: row;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-top: 30px solid #d6e4ff;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+
+    > * {
+      margin-top: -30px;
+    }
+  }
+
+  .Right {
+    flex-direction: column;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    right: 0;
+    width: 0;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-right: 30px solid #d6e4ff;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+
+    > * {
+        margin-left: -5px;
+      }
+  }
+
+  .Bottom {
+    flex-direction: row;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid #d6e4ff;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+
+  .Left {
+    flex-direction: column;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 0;
+    width: 0;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    border-left: 30px solid #d6e4ff;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+
+    > * {
+      margin-left: -35px;
+    }
+  }
+}

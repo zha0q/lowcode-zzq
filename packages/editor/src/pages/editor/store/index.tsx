@@ -170,9 +170,8 @@ function Store(props: { children: any }) {
         _schema = _schema.body.find((_comp: any) => _comp.id === id);
         type = _schema.type;
       });
-      Object.keys(formData).forEach((_schemaKey) => {
-        _schema[_schemaKey] = formData[_schemaKey];
-      });
+      // Object.assign 也可以触发setter
+      Object.assign(_schema, formData);
       this.eventBus.emit('schema', [JSON.stringify(this.schema)]);
     },
   }));

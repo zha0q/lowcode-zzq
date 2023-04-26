@@ -5,6 +5,7 @@ import { memo, useMemo, useRef } from 'react';
 import RootStore from './DataContext';
 import EnvStore from './EnvContext';
 import { observer } from 'mobx-react-lite';
+import { camelCase } from 'lodash';
 
 const dynamicComponentImported = new Map();
 
@@ -51,6 +52,15 @@ export default (props: any) => (
 export const renderChild = (schema: any, props: any) => {
   if (!schema) return;
   if (Array.isArray(schema)) return renderChilden(schema, props);
+  // 处理schema中的驼峰
+  const _layout = {} as any;
+  if (schema.layout) {
+    Object.keys(schema.layout).forEach((attr) => {
+      const _attr = camelCase(attr);
+      _layout[_attr] = schema.layout[attr];
+    });
+    Object.assign(schema, { layout: _layout });
+  }
   return <DynamicRenderer key={schema.id} schema={schema} {...props} />;
 };
 
