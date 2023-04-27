@@ -11,7 +11,7 @@ const selectAfter = (
 ) => (
   <Select defaultValue={unit || options[0]} onChange={onChange}>
     {options.map((_) => (
-      <Option value={_}>{_}</Option>
+      <Option value={_} key={_}>{_}</Option>
     ))}
   </Select>
 );
