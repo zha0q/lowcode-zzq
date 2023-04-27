@@ -24,11 +24,11 @@ export type IAxis = 'x' | 'y';
 const Canvas = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const { eventBus, schema, addSchema, layoutInfo, setLayoutInfo, setEditId } = useContext(
-    StoreContext,
-  ) as any;
+  const { eventBus, schema, addSchema, layoutInfo, setLayoutInfo, setEditId } =
+    useContext(StoreContext) as any;
 
   const [isHover, setIsHover] = useState<boolean>(false);
+  const [layer, setLayer] = useState<[string, DOMRect]>();
 
   useEffect(() => {
     window.addEventListener('message', (e: any) => {
@@ -36,11 +36,13 @@ const Canvas = () => {
         setLayoutInfo(e.data.data);
       }
 
-      if(e.data.type === 'edit') {
-        const componentPath = e.data.data as string;
-        console.log(componentPath);
-        if(!componentPath.includes('/')) return;
-        setEditId(e.data.data);
+      if (e.data.type === 'layer') {
+        const componentPath = e.data.data[0] as string;
+        if (!componentPath?.includes('/')) {
+          setLayer({} as any);
+        } else {
+          setLayer(e.data.data);
+        }
       }
     });
 
@@ -65,9 +67,9 @@ const Canvas = () => {
       );
     });
 
-    eventBus.on('edit', ([mouseInfo]) => {
+    eventBus.on('layer', ([mouseInfo]) => {
       (iframeRef.current as HTMLIFrameElement).contentWindow?.postMessage(
-        { type: 'edit', data: mouseInfo },
+        { type: 'layer', data: mouseInfo },
         '*',
       );
     });
@@ -77,9 +79,13 @@ const Canvas = () => {
     eventBus.emit('schema', [JSON.stringify(schema)]);
   };
 
+  const handleHover = (e: MouseEvent) => {
+    eventBus.emit('layer', [{ x: e.pageX - 45, y: e.pageY }]);
+  };
+
   const handleClick = (e: MouseEvent) => {
-    eventBus.emit('edit', [{x: e.pageX - 45, y: e.pageY}])
-  }
+    setEditId(layer?.[0]);
+  };
 
   const [{ canDrop, isOver }, drop] = useDrop<
     DragItem,
@@ -132,7 +138,13 @@ const Canvas = () => {
   }));
   return (
     <div ref={drop} className={styles.Canvas}>
-      <Mask info={layoutInfo as ILayoutInfo} hover={isHover} handleClick={handleClick as any} />
+      <Mask
+        info={layoutInfo as ILayoutInfo}
+        maskRect={layer?.[1] as any}
+        hover={isHover}
+        handleHover={handleHover as any}
+        handleClick={handleClick as any}
+      />
       <iframe
         ref={iframeRef}
         className={styles.Iframe}

@@ -13,10 +13,6 @@ function Editor() {
   const { Header, Content, Footer, Sider } = Layout;
   const contentRef = React.createRef();
 
-  const onDragEnd = (result: any) => {
-    console.log('dragend', result);
-  };
-
   return (
     <DndProvider backend={HTML5Backend}>
       <Store>

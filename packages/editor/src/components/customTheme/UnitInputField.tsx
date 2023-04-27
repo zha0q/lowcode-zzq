@@ -37,7 +37,6 @@ const UnitInputField = ({
   const [value, setValue] = useState<number>(
     !isNaN(parseFloat(fieldData)) ? parseFloat(fieldData) : 0,
   );
-  console.log(fieldData, extractStr(fieldData))
   const [unit, setUnit] = useState<(typeof _options)[number]>(
     extractStr(fieldData) || _options[0],
   );

@@ -21,10 +21,14 @@ type IMaskDrawInfo = {
 const Mask = ({
   info,
   hover,
+  maskRect,
+  handleHover,
   handleClick,
 }: {
   info: IMaskDrawInfo;
   hover: boolean;
+  maskRect: DOMRect;
+  handleHover: React.MouseEventHandler<HTMLDivElement> | undefined;
   handleClick: React.MouseEventHandler<HTMLDivElement> | undefined;
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -72,7 +76,27 @@ const Mask = ({
     }
   };
 
-  const repaint = () => paint();
+  const maskPaint = () => {
+    if (hover) return;
+    // 清除
+    (canvasCtx.current as CanvasRenderingContext2D).clearRect(
+      0,
+      0,
+      canvasRef?.current?.width || 0,
+      canvasRef?.current?.height || 0,
+    );
+
+    if (!maskRect) return;
+    // 绘制
+    (canvasCtx.current as CanvasRenderingContext2D).fillStyle =
+      'rgba(140,172,254,0.25)';
+    canvasCtx?.current?.fillRect(
+      maskRect.x,
+      maskRect.y,
+      maskRect.width,
+      maskRect.height,
+    );
+  };
 
   useEffect(() => {
     // 设置canvasContext
@@ -88,11 +112,20 @@ const Mask = ({
   // CanvasRenderingContext2D.clearRect()
   // CanvasRenderingContext2D.strokeRect()
   useEffect(() => {
-    repaint();
+    paint();
   }, [info, hover]);
 
+  useEffect(() => {
+    maskPaint();
+  }, [maskRect]);
+
   return (
-    <div ref={wrapperRef} className={styles.Mask} onClick={handleClick}>
+    <div
+      ref={wrapperRef}
+      className={styles.Mask}
+      onClick={handleClick}
+      onMouseMove={handleHover}
+    >
       <canvas ref={canvasRef} />
     </div>
   );

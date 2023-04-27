@@ -30,9 +30,10 @@ export function FormEditor() {
   const [editCategory, setEditCategory] = useState<number>(0);
   const _schema = useMemo(() => {
     let _ = schema;
-    editId.split('/').forEach((id: string) => {
+    editId?.split('/').forEach((id: string) => {
       _ = _.body.find((_comp: any) => _comp.id === id);
     });
+    if(!_) return;
     switch (editCategory) {
       case 0:
         return structuredClone(toJS(_));
@@ -69,7 +70,6 @@ export function FormEditor() {
 
   const onSubmit = () => {
     if (!editId) return {};
-    console.log(ref.current?.formData);
     switch (editCategory) {
       case 0:
         setEditSchema(ref.current?.formData);

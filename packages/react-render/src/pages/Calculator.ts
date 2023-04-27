@@ -121,25 +121,25 @@ export class Calculator {
     };
   }
 
-  click(mousePosition: { x: number; y: number }) {
-    console.log(
-      Array.from(this.baseNodeRectMap.entries())
+  layer(mousePosition: { x: number; y: number }) {
+    try {
+      return Array.from(this.baseNodeRectMap.entries())
         .concat(Array.from(this.containerNodeRectMap.entries()))
-        .filter(([, rect]) => isMouseInDom(mousePosition, rect)),
-    );
-    return Array.from(this.baseNodeRectMap.entries())
-      .concat(Array.from(this.containerNodeRectMap.entries()))
-      .filter(([, rect]) => isMouseInDom(mousePosition, rect))
-      .reduce(([resultId, resultRect], [id, rect]) => {
-        const resultStyle =
-          this.containerNodeComputedStyleMap.get(resultId) ??
-          (this.baseNodeComputedStyleMap.get(resultId) as CSSStyleDeclaration);
-        const currStyle =
-          this.containerNodeComputedStyleMap.get(id) ??
-          (this.baseNodeComputedStyleMap.get(id) as CSSStyleDeclaration);
-        if (isSecondElementHigher(resultStyle, currStyle, resultId, id))
-          return [id, rect];
-        else return [resultId, resultRect];
-      })[0];
+        .filter(([, rect]) => isMouseInDom(mousePosition, rect))
+        .reduce(([resultId, resultRect], [id, rect]) => {
+          const resultStyle =
+            this.containerNodeComputedStyleMap.get(resultId) ??
+            (this.baseNodeComputedStyleMap.get(resultId) as CSSStyleDeclaration);
+          const currStyle =
+            this.containerNodeComputedStyleMap.get(id) ??
+            (this.baseNodeComputedStyleMap.get(id) as CSSStyleDeclaration);
+          if (isSecondElementHigher(resultStyle, currStyle, resultId, id))
+            return [id, rect];
+          else return [resultId, resultRect];
+        });
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
   }
 }

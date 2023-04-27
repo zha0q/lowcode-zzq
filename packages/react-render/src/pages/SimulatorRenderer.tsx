@@ -5,7 +5,7 @@ import { Calculator } from './Calculator';
 
 interface IEditorEvent extends MessageEvent<any> {
   data: {
-    type: 'schema' | 'hover' | 'drag-start' | 'edit';
+    type: 'schema' | 'hover' | 'drag-start' | 'layer';
     data?: any;
   };
 }
@@ -38,12 +38,12 @@ const SimulatorRenderer = () => {
           case 'schema':
             setSchema(JSON.parse(ev.data.data).body[0]);
             break;
-          case 'edit':
+          case 'layer':
             calculator.load(materialsMap);
             window.parent.postMessage(
               {
-                type: 'edit',
-                data: calculator.click(ev.data.data),
+                type: 'layer',
+                data: calculator.layer(ev.data.data),
               },
               '*',
             );
