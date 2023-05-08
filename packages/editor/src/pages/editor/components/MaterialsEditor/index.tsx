@@ -1,4 +1,4 @@
-import { SiderProps, Tooltip, Tree } from 'antd';
+import { Button, SiderProps, Tooltip, Tree } from 'antd';
 import { useContext, useRef, useState } from 'react';
 import styles from './index.less';
 
@@ -10,6 +10,7 @@ import DragBox from './DragBox';
 import Panel from './Panel';
 import classNames from 'classnames';
 import { StoreContext } from '../../store';
+import { useHistory } from 'umi';
 
 type Category = 'outline' | 'component' | 'database' | 'code';
 
@@ -49,6 +50,8 @@ export default function (props: {
     SiderProps & React.RefAttributes<HTMLDivElement>
   >;
 }) {
+  const { schema } = useContext(StoreContext) as any;
+  const history = useHistory();
   const { Sider } = props;
 
   const [collapsed, setCollapsed] = useState(false);
@@ -61,11 +64,20 @@ export default function (props: {
     setCategory(cate);
   };
 
+  const navigateToPreview = () => {
+    history.push('/preview', { schema: [JSON.stringify(schema)] });
+  };
+
   const renderContent = () => {
     const { schemaTree } = useContext(StoreContext) as any;
     switch (category) {
       case 'outline':
-        return <Tree checkable treeData={[schemaTree]} />;
+        return (
+          <div className={styles.Outline}>
+            <Tree checkable treeData={[schemaTree]} />
+            <Button block onClick={navigateToPreview}>预览</Button>
+          </div>
+        );
         break;
       case 'component':
         return (
