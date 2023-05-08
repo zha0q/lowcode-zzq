@@ -77,6 +77,9 @@ export default function (props: {
               {
                 type: 'Div',
               },
+              {
+                type: 'Input',
+              },
             ].map((item, index) => (
               <DragBox key={index} data={item} setCollapsed={setCollapsed} />
             ))}
