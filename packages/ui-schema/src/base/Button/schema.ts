@@ -6,19 +6,28 @@ const ButtonSchema: any = {
       fieldKey: 'block',
       title: '按钮宽度调为父级宽度',
       type: 'boolean',
+      ui: {
+        type: 'switch',
+        theme: 'antd'
+      }
     },
     {
       fieldKey: 'label',
       title: '按钮文案',
       type: 'string',
+      ui: {
+        type: 'text',
+        theme: 'antd'
+      }
     },
     {
-      fieldKey: 'type',
+      fieldKey: 'level',
       title: '按钮类型',
       type: 'string',
       ui: {
-        type: 'select',
+        type: 'radio',
         theme: 'antd',
+        buttonStyle: 'solid',
         options: [
           {
             label: 'default',
@@ -52,8 +61,9 @@ const ButtonSchema: any = {
       title: '按钮大小',
       type: 'string',
       ui: {
-        type: 'select',
+        type: 'radio',
         theme: 'antd',
+        buttonStyle: 'solid',
         options: [
           {
             label: 'large',
@@ -74,11 +84,19 @@ const ButtonSchema: any = {
       fieldKey: 'loading',
       title: '显示按钮 loading 效果',
       type: 'boolean',
+      ui: {
+        type: 'switch',
+        theme: 'antd'
+      }
     },
     {
       fieldKey: 'loadingOn',
       title: '显示按钮 loading 效果表达式',
       type: 'string',
+      ui: {
+        type: 'text',
+        theme: 'antd'
+      }
     },
   ],
   default: {
