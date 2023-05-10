@@ -1,14 +1,15 @@
-import { message } from 'antd';
-import { IRouteComponentProps } from 'umi'
+import { IRouteComponentProps } from 'umi';
 import { useEffect } from 'react';
+import { Breadcrumb, Layout as AntdLayout, Menu } from 'antd';
+import PageHeader from '../components/Header';
+
+const { Header, Content } = AntdLayout;
 
 export default function Layout({ children }: IRouteComponentProps) {
-  const [messageApi, contextHolder] = message.useMessage();
-  useEffect(() => {
-    messageApi.info('hahahah')
-  }, []);
-  return <>
-    {contextHolder}
-    {children}
-  </>;
+  return (
+    <>
+      <PageHeader />
+      <Content>{children}</Content>
+    </>
+  );
 }

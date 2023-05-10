@@ -1,11 +1,12 @@
-import { Redirect } from 'umi'
+import useAuth from '@/hooks/useAuth';
+import { redirectUrl } from '@/utils/config';
+import { Redirect } from 'umi';
 
-export default ({children}: any) => {
-  // const { isLogin } = useAuth();
-  const { isLogin } = { isLogin: true };
+export default ({ children }: any) => {
+  const { isLogin } = useAuth();
   if (isLogin) {
     return <div>{children}</div>;
   } else {
-    return <Redirect to="/login" />;
+    window.location.assign(redirectUrl);
   }
-}
+};
