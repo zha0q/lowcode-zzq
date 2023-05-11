@@ -1,5 +1,5 @@
 const CalendarSchema: any = {
-    type: 'Carousel',
+    type: 'Calendar',
     schema:
     [
       {
