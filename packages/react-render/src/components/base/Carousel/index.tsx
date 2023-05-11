@@ -9,16 +9,27 @@ const Carousel = React.forwardRef((props: any, ref: React.Ref<any>) => {
     $.dispatchEvent(e, $.renderer, {});
   };
   return (
-    <AntdCarousel
-      ref={ref}
-      style={layout}
-      autoplay={autoplay}
-      afterChange={handleChange}
-    >
-      {urls.map((url: string) => {
-        return <div style={{ backgroundImage: `url(${url})` }}></div>;
-      })}
-    </AntdCarousel>
+    <div ref={ref} style={layout}>
+      <AntdCarousel
+        style={layout}
+        autoplay={autoplay}
+        afterChange={handleChange}
+      >
+        {urls.map((url: string) => {
+          return (
+            <div>
+              <div
+                key={url}
+                style={{
+                  ...layout,
+                  backgroundImage: `url(${url})`,
+                }}
+              ></div>
+            </div>
+          );
+        })}
+      </AntdCarousel>
+    </div>
   );
 });
 

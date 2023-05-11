@@ -11,14 +11,15 @@ const Switch = React.forwardRef((props: any, ref: React.Ref<any>) => {
   };
 
   return (
-    <AntdSwitch
-      ref={ref}
-      style={layout}
-      defaultChecked={defaultChecked}
-      size={size}
-      disabled={disabled}
-      onChange={handleChange}
-    />
+    <div ref={ref} style={layout}>
+      <AntdSwitch
+        style={layout}
+        defaultChecked={defaultChecked}
+        size={size}
+        disabled={disabled}
+        onChange={handleChange}
+      />
+    </div>
   );
 });
 

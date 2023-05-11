@@ -7,13 +7,19 @@ const Table = React.forwardRef((props: any, ref: React.Ref<any>) => {
   const { layout, dataSource, columns } = props.schema;
 
   return (
-    <AntdTable ref={ref} dataSource={dataSource} style={layout}>
-      {columns.map((column: { title: string; dataIndex: string }) => {
+    <AntdTable
+      ref={ref}
+      dataSource={dataSource.map((v) => JSON.parse(v))}
+      style={layout}
+    >
+      {columns.map((column: string) => {
+        const _column: { title: string; dataIndex: string } =
+          JSON.parse(column);
         return (
           <AntdColumn
-            title={column.title}
-            dataIndex={column.dataIndex}
-            key={column.dataIndex}
+            title={_column.title}
+            dataIndex={_column.dataIndex}
+            key={_column.dataIndex}
           />
         );
       })}

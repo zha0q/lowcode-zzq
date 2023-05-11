@@ -19,19 +19,20 @@ const Input = React.forwardRef((props: any, ref: React.Ref<any>) => {
     $.dispatchEvent(e, $.renderer, {});
   };
   return (
-    <AntdInput
-      ref={ref}
-      style={layout}
-      allowClear={allowClear}
-      bordered={bordered}
-      defaultValue={defaultValue}
-      maxLength={maxLength}
-      showCount={showCount}
-      size={size}
-      value={value}
-      disabled={disabled}
-      onChange={handleChange}
-    />
+    <div ref={ref} style={layout}>
+      <AntdInput
+        style={layout}
+        allowClear={allowClear}
+        bordered={bordered}
+        defaultValue={defaultValue}
+        maxLength={maxLength}
+        showCount={showCount}
+        size={size}
+        value={value}
+        disabled={disabled}
+        onChange={handleChange}
+      />
+    </div>
   );
 });
 
